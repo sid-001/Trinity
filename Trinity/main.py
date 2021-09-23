@@ -231,7 +231,7 @@ async def clear(ctx, amount=1):
 async def toggle(ctx, command=None):
     if client.Superuser: 
         if command == "spam":
-            if client.spam = False:
+            if client.spam == False:
                 client.spam = True
                 await ctx.reply("Command Enabled")
             else:
