@@ -141,7 +141,7 @@ async def resend(ctx):
         await ctx.send("I can't send this again!")
 
 @client.command()
-async def Superuser(ctx):
+async def superuser(ctx):
     if (ctx.author.id == s_admin):
         
         msg = await ctx.send("Please enter your `ID` you've 5 seconds to reply.")
@@ -231,8 +231,12 @@ async def clear(ctx, amount=1):
 async def toggle(ctx, command=None):
     if client.Superuser: 
         if command == "spam":
-            await ctx.reply("Spam disabled")
-            client.spam = False
+            if client.spam = False:
+                client.spam = True
+                await ctx.reply("Command Enabled")
+            else:
+                client.spam = False
+                await ctx.reply("Command Disabled")
         else:
             await ctx.reply("Unknown Command ID")
     else:
