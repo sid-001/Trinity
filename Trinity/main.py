@@ -2,8 +2,6 @@ import discord
 import asyncio
 import datetime
 from discord.ext import commands
-import pymongo
-import random
 import wikipedia
 import json
 
