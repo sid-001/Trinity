@@ -8,14 +8,6 @@ import json
 s_admin = 858195823296905256
 
 
-# with open('main.json', 'w') as outfile:
-#     json.dump(data, outfile, sort_keys=True, indent=4)
-
-# with open('main.json') as data_file:    
-#     data = json.load(data_file)
-#     print(data["key"])
-
-# ===========================FUNCTIONS================================
 def cbn(bal):
     res = (format (bal, ','))
     return(str(res))
@@ -24,9 +16,7 @@ def get_prefix(client, message):
     with open('prefixes.json', 'r') as f: 
         prefixes = json.load(f) 
     return prefixes[str(message.guild.id)]
-# ====================================================================
 
-# client = commands.Bot(command_prefix = '*') 
 
 client = commands.Bot(
     command_prefix= (get_prefix),
@@ -35,30 +25,31 @@ client = commands.Bot(
 print(get_prefix)
 
 client.Superuser = False
-# ===========================EVENTS====================================
+client.spam = True
+
 @client.event
 async def on_ready():
     print("We're ready!")
 @client.event
-async def on_guild_join(guild): #when the bot joins the guild
-    with open('prefixes.json', 'r') as f: #read the prefix.json file
-        prefixes = json.load(f) #load the json file
+async def on_guild_join(guild): 
+    with open('prefixes.json', 'r') as f: 
+        prefixes = json.load(f) 
 
-    prefixes[str(guild.id)] = '$'#default prefix
+    prefixes[str(guild.id)] = '$'
 
-    with open('prefixes.json', 'w') as f: #write in the prefix.json "message.guild.id": "bl!"
-        json.dump(prefixes, f, indent=4) #the indent is to make everything look a bit neater
+    with open('prefixes.json', 'w') as f: 
+        json.dump(prefixes, f, indent=4) 
 
 @client.event
-async def on_guild_remove(guild): #when the bot is removed from the guild
-    with open('prefixes.json', 'r') as f: #read the file
+async def on_guild_remove(guild): 
+    with open('prefixes.json', 'r') as f: 
         prefixes = json.load(f)
 
-    prefixes.pop(str(guild.id)) #find the guild.id that bot was removed from
+    prefixes.pop(str(guild.id)) 
 
-    with open('prefixes.json', 'w') as f: #deletes the guild.id as well as its prefix
+    with open('prefixes.json', 'w') as f: 
         json.dump(prefixes, f, indent=4)
-# ======================================================================
+
 @client.command()
 async def prefix(ctx, prefix="$"):
     if ctx.author.id == s_admin and client.Superuser:
@@ -66,16 +57,15 @@ async def prefix(ctx, prefix="$"):
             prefixes = json.load(f)
         prefixes[str(ctx.guild.id)] = prefix
 
-        with open('prefixes.json', 'w') as f: #writes the new prefix into the .json
+        with open('prefixes.json', 'w') as f: 
             json.dump(prefixes, f, indent=4)
 
-        await ctx.send(f'The new prefix for this server is `{prefix}`') #confirms the prefix it's been changed to
+        await ctx.send(f'The new prefix for this server is `{prefix}`') 
     elif ctx.author.id == s_admin and client.Superuser == False:
         await ctx.reply("Use `Master Controls` to use this command.")
     else:
         await ctx.reply("You're not authorised to use this command.")
 
-#=============================ECONOMY===================================
 @client.command()
 async def register(ctx):
         a_dict = {f'{str(ctx.author.id)}': 86400}
@@ -123,12 +113,16 @@ async def ping(ctx):
 
 @client.command()
 async def spam(ctx, a:int,*,cont):
-    if a > 30:
-        await ctx.reply("Can't spam more than 30 times.")
+    if client.spam:
+        if a > 30:
+            await ctx.reply("Can't spam more than 30 times.")
+        else:
+            await ctx.send(f"spamming {a} times as {cont}")
+            for x in range(a):
+                await ctx.send(f"{cont}")
     else:
-        await ctx.send(f"spamming {a} times as {cont}")
-        for x in range(a):
-            await ctx.send(f"{cont}")
+        await ctx.reply("command is disabled")
+        
 
 @client.command()
 async def say(ctx,*, content):
@@ -198,19 +192,19 @@ async def Sleep(ctx):
 
 @client.command() 
 async def add(ctx,a:int,b:int): 
-    await ctx.send(f"{a} + {b} = {a+b}") #Adds A and B
+    await ctx.send(f"{a} + {b} = {a+b}") 
 
 @client.command() 
 async def sub(ctx,a:int,b:int): 
-    await ctx.send(f"{a} - {b} = {a-b}") #Subtracts A and B
+    await ctx.send(f"{a} - {b} = {a-b}") 
 
 @client.command() 
 async def multiply(ctx,a:int,b:int): 
-    await ctx.send(f"{a} * {b} = {a*b}") #Multplies A and B
+    await ctx.send(f"{a} X {b} = {a*b}") 
 
 @client.command() 
 async def divide(ctx,a:int,b:int): 
-    await ctx.send(f"{a} / {b} = {a/b}") #Divides A and B
+    await ctx.send(f"{a} / {b} = {a/b}") 
 
 @client.command()
 async def info(ctx,*,query):
@@ -232,5 +226,16 @@ async def clear(ctx, amount=1):
         await ctx.channel.purge(limit=amount+1)
     except:
         await ctx.reply("Because of Discord limitations I can't delete messages past 2 weeks.")
+        
+@client.command()
+async def toggle(ctx, command=None):
+    if client.Superuser: 
+        if command == "spam":
+            await ctx.reply("Spam disabled")
+            client.spam = False
+        else:
+            await ctx.reply("Unknown Command ID")
+    else:
+        await ctx.reply("Use `Master Controls` to execute this command.")
            
 client.run('ODg5MzY4NDQ2MTkyNzM0MjA5.YUgO6Q.uBYG00vvUjk4mXXAlZvrsLvGZEU')
