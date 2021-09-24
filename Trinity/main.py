@@ -206,7 +206,7 @@ async def multiply(ctx,a:int,b:int):
 async def divide(ctx,a:int,b:int): 
     await ctx.send(f"{a} / {b} = {a/b}") 
 
-@client.command()
+
 @client.command()
 async def info(ctx,*,query):
     if query == "Siddhartha Gaur":
