@@ -4,8 +4,12 @@ import datetime
 from discord.ext import commands
 import wikipedia
 import json
+import pymongo
 
 s_admin = 858195823296905256
+myclient = pymongo.MongoClient("mongodb+srv://SidDB:iqYEMReHesQ0pNAJ@sidbot.81mkh.mongodb.net/retryWrites=true&w=majority")
+mydb = myclient["Trinity"]
+mycol = mydb["Userinfo"]
 
 
 def cbn(bal):
@@ -68,32 +72,33 @@ async def prefix(ctx, prefix="$"):
 
 @client.command(brief='Register yourself tro Trinity Economy commands')
 async def register(ctx):
-        a_dict = {f'{str(ctx.author.id)}': 86400}
-        with open('main.json') as f:
-            data = json.load(f)
-        if str(ctx.author.id) not in data:
-            data.update(a_dict)
-            with open('main.json', 'w') as f:
-                json.dump(data, f)
-            await ctx.reply("You're now registred, you got `86,400` coins.")
-        else:
-            await ctx.reply("You already have an account.")
+    user = mycol.find_one({"id": ctx.author.id})
+    if user == None:
+        userinfo = {
+        "name": ctx.author.name,
+        "id": ctx.author.id,
+        "balance": 86400
+        }
+        mycol.insert_one(userinfo)
+        embed=discord.Embed(title="Registered Successfully.", color=0xFF0000)
+        await ctx.reply(embed=embed)
+    else:
+        embed=discord.Embed(title="You're already registered.", color=0xFF0000)
+        await ctx.reply(embed=embed)
 
 @client.command(brief='Shows you current balance')
 async def bal(ctx):
-    try:
-        idd= str(ctx.author.id)
-        with open('main.json') as data_file:    
-            data = json.load(data_file)
-            aid = str(ctx.author.id)
-        embed=discord.Embed(title= f"{ctx.author.name}'s balance", color=0x0FFFF)
+    user = mycol.find_one({"id":ctx.author.id})
+    if user == None:
+        embed=discord.Embed(title="You're not registered yet.", color=0xFF0000)
+        await ctx.reply(embed=embed)
+    else:
+        embed=discord.Embed(title= f"{ctx.author.name}'s balance", color=0xFF0000)
         embed.set_thumbnail(url="https://i.imgur.com/uZIlRnK.png")
-        embed.add_field(name=f"{cbn(data[aid])}", value="\u200b")
+        embed.add_field(name= f"{cbn(user['balance'])}", value="\u200b")
         embed.timestamp = datetime.datetime.utcnow()
         embed.set_footer(text = "Economy")
         await ctx.send(embed=embed)
-    except:
-        await ctx.reply("You're not registered yet!")
 
 @client.command(brief='Update your balance to as much you want')
 async def updatebal(ctx, a=100000):
