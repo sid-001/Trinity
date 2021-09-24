@@ -50,7 +50,7 @@ async def on_guild_remove(guild):
     with open('prefixes.json', 'w') as f: 
         json.dump(prefixes, f, indent=4)
 
-@client.command()
+@client.command(brief='For changing the prefix')
 async def prefix(ctx, prefix="$"):
     if ctx.author.id == s_admin and client.Superuser:
         with open('prefixes.json', 'r') as f:
@@ -66,7 +66,7 @@ async def prefix(ctx, prefix="$"):
     else:
         await ctx.reply("You're not authorised to use this command.")
 
-@client.command()
+@client.command(brief='Register yourself tro Trinity Economy commands')
 async def register(ctx):
         a_dict = {f'{str(ctx.author.id)}': 86400}
         with open('main.json') as f:
@@ -79,7 +79,7 @@ async def register(ctx):
         else:
             await ctx.reply("You already have an account.")
 
-@client.command()
+@client.command(brief='Shows you current balance')
 async def bal(ctx):
     try:
         idd= str(ctx.author.id)
@@ -95,7 +95,7 @@ async def bal(ctx):
     except:
         await ctx.reply("You're not registered yet!")
 
-@client.command()
+@client.command(brief='Update your balance to as much you want')
 async def updatebal(ctx, a=100000):
     if ctx.author.id == s_admin and client.Superuser:
         data = {str(ctx.author.id):a}
@@ -107,11 +107,11 @@ async def updatebal(ctx, a=100000):
     else:
         await ctx.reply("You're not authorised to use this command.")
 
-@client.command()
+@client.command(brief='Shows bot response time')
 async def ping(ctx):
     await ctx.send('Pong! `{0}ms`'.format(round(client.latency, 1)))
 
-@client.command()
+@client.command(brief='Spams as much as 30 times')
 async def spam(ctx, a:int,*,cont):
     if client.spam:
         if a > 30:
@@ -124,12 +124,12 @@ async def spam(ctx, a:int,*,cont):
         await ctx.reply("command is disabled")
         
 
-@client.command()
+@client.command(brief='Says your message')
 async def say(ctx,*, content):
     await ctx.message.delete()
     await ctx.send(f"{content}")
 
-@client.command()
+@client.command(brief='Resends the message you replied for')
 async def resend(ctx):
     try:
         await ctx.message.delete()
@@ -140,7 +140,7 @@ async def resend(ctx):
         print(e)
         await ctx.send("I can't send this again!")
 
-@client.command()
+@client.command(brief='Gives you full access to the system')
 async def superuser(ctx):
     if (ctx.author.id == s_admin):
         
@@ -161,7 +161,7 @@ async def superuser(ctx):
     else:
         await ctx.reply(content="You don't have permission to use this command!")
 
-@client.command()
+@client.command(brief='Disables the Superuser')
 async def disable_superuser(ctx):
     if ctx.author.id == s_admin:
         client.Superuser = False
@@ -169,7 +169,7 @@ async def disable_superuser(ctx):
     else:
         await ctx.reply("Superuser isn't a joke, not everyone can use it!")
 
-@client.command()
+@client.command(brief='DM your message to the mentioned user')
 async def dm(ctx, member: discord.Member, *, content):
 
     try:
@@ -182,7 +182,7 @@ async def dm(ctx, member: discord.Member, *, content):
     except:
         await ctx.reply("Can't send your message!")
 
-@client.command(name="id")
+@client.command(brief='Shows ID of mentioned user')
 async def id(ctx, user: discord.User):
     await ctx.send(user.id)
 
