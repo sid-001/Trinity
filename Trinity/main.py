@@ -143,31 +143,18 @@ async def resend(ctx):
 @client.command(brief='Gives you full access to the system')
 async def superuser(ctx):
     if (ctx.author.id == s_admin):
-        
-        msg = await ctx.send("Please enter your `ID` you've 5 seconds to reply.")
-            
-        try:
-            message = await client.wait_for('message', check = lambda m: m.author == ctx.author and m.channel==ctx.channel,timeout = 5) 
-        
-        except asyncio.TimeoutError:
-            await msg.edit(content="Time up!")
-        
+        if client.Superuser:
+            client.Superuser=False
+            embed = discord.Embed(title=f"Superuser Disabled", color=0xFF0000)
+            await ctx.reply(embed=embed)
         else:
-            if (message.content.lower() == "id2317"):
-                await msg.edit(content="Master Controls initiated.")
-                client.Superuser = True
-            else:
-                await msg.edit(content="This id isn't found in my database.")
+            client.Superuser=True
+            embed = discord.Embed(title=f"Superuser Enabled", color=0xFF0000)
+            await ctx.reply(embed=embed)
     else:
-        await ctx.reply(content="You don't have permission to use this command!")
+            embed = discord.Embed(title=f"You're not authorised to use this command.", color=0xFF0000)
+            await ctx.reply(embed=embed)
 
-@client.command(brief='Disables the Superuser')
-async def disable_superuser(ctx):
-    if ctx.author.id == s_admin:
-        client.Superuser = False
-        await ctx.reply("Superuser Changed to `Disable`")
-    else:
-        await ctx.reply("Superuser isn't a joke, not everyone can use it!")
 
 @client.command(brief='DM your message to the mentioned user')
 async def dm(ctx, member: discord.Member, *, content):
@@ -232,7 +219,7 @@ async def clear(ctx, amount=1):
     try:
         await ctx.channel.purge(limit=amount+1)
     except:
-        await ctx.reply("Because of Discord limitations I can't delete messages past 2 weeks.")
+        await ctx.reply("An unknown error occured")
         
 @client.command()
 async def toggle(ctx, command=None):
