@@ -207,16 +207,23 @@ async def divide(ctx,a:int,b:int):
     await ctx.send(f"{a} / {b} = {a/b}") 
 
 @client.command()
+@client.command()
 async def info(ctx,*,query):
     if query == "Siddhartha Gaur":
         await ctx.reply("Greatest person alive!")
+    elif query == "Riya":
+        await ctx.reply("Bhagwan Jaane:smiling_face_with_tear:")
     else:
         try:
             m = await ctx.reply(f"Collecting data from servers about `{query}` ")
             results = wikipedia.summary(query, sentences = 2)
-            await m.edit(content=f"{results}")
+            embed = discord.Embed(title=f"results for **{query}**", description=f"{results}", color=0xFF0000)
+            await m.delete()
+            await ctx.reply(embed=embed)
         except Exception as e:
-            await m.edit(content=f"{e}")
+            embed = discord.Embed(title="**Something went wrong**", description=f"{e}", color=0xFF0000)
+            await m.delete()
+            await ctx.reply(embed=embed)
 
 
 @client.command(pass_context=True)
