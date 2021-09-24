@@ -141,7 +141,7 @@ async def resend(ctx):
         await ctx.send("I can't send this again!")
 
 @client.command(brief='Gives you full access to the system')
-async def superuser(ctx):
+async def root(ctx):
     if (ctx.author.id == s_admin):
         if client.Superuser:
             client.Superuser=False
@@ -173,28 +173,25 @@ async def dm(ctx, member: discord.Member, *, content):
 async def id(ctx, user: discord.User):
     await ctx.send(user.id)
 
-@client.command()
-async def Sleep(ctx):
-    await ctx.reply(f"Disconnected from the server.")
 
-@client.command() 
+@client.command(brief='Add two numbers') 
 async def add(ctx,a:int,b:int): 
     await ctx.send(f"{a} + {b} = {a+b}") 
 
-@client.command() 
+@client.command(brief='subtract two numbers') 
 async def sub(ctx,a:int,b:int): 
     await ctx.send(f"{a} - {b} = {a-b}") 
 
-@client.command() 
+@client.command(brief='Multiply two numbers') 
 async def multiply(ctx,a:int,b:int): 
     await ctx.send(f"{a} X {b} = {a*b}") 
 
-@client.command() 
+@client.command(brief='Divide two numbers') 
 async def divide(ctx,a:int,b:int): 
     await ctx.send(f"{a} / {b} = {a/b}") 
 
 
-@client.command()
+@client.command(brief='Gives information about query')
 async def info(ctx,*,query):
     if query == "Siddhartha Gaur":
         await ctx.reply("Greatest person alive!")
@@ -204,7 +201,7 @@ async def info(ctx,*,query):
         try:
             m = await ctx.reply(f"Collecting data from servers about `{query}` ")
             results = wikipedia.summary(query, sentences = 2)
-            embed = discord.Embed(title=f"results for **{query}**", description=f"{results}", color=0xFF0000)
+            embed = discord.Embed(title=f"Results for **{query}**", description=f"{results}", color=0xFF0000)
             await m.delete()
             await ctx.reply(embed=embed)
         except Exception as e:
@@ -213,15 +210,17 @@ async def info(ctx,*,query):
             await ctx.reply(embed=embed)
 
 
-@client.command(pass_context=True)
-@commands.has_permissions(administrator=True)
+@client.command(brief='Clear messages')
 async def clear(ctx, amount=1):
-    try:
-        await ctx.channel.purge(limit=amount+1)
-    except:
-        await ctx.reply("An unknown error occured")
+    if client.Superuser:
+        try:
+            await ctx.channel.purge(limit=amount+1)
+        except:
+            await ctx.reply("An unknown error occured")
+    else:
+        await ctx.reply("Use `Master Controls` to execute command.")   
         
-@client.command()
+@client.command(brief='Enable/Disable commands')
 async def toggle(ctx, command=None):
     if client.Superuser: 
         if command == "spam":
