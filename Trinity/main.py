@@ -54,18 +54,20 @@ async def on_guild_remove(guild):
 @client.command(brief='For changing the prefix')
 async def prefix(ctx, prefix="$"):
     if ctx.author.id == s_admin and client.Superuser:
-        with open('prefixes.json', 'r') as f:
-            prefixes = json.load(f)
-        prefixes[str(ctx.guild.id)] = prefix
-
-        with open('prefixes.json', 'w') as f: 
-            json.dump(prefixes, f, indent=4)
-
-        await ctx.send(f'The new prefix for this server is `{prefix}`') 
+        query = {
+            "id": ctx.guild.id
+        }
+        newprefix = {
+            "$set":{"Prefix": prefix}
+        }
+        Server_prefix.update_one(query, newprefix)
+        embed = discord.Embed(title=f"Prefix changed to {prefix}", color=0xFF0000)
+        await ctx.reply(embed=embed)
     elif ctx.author.id == s_admin and client.Superuser == False:
-        await ctx.reply("Use `Master Controls` to use this command.")
+        await ctx.reply("Use `Master Controls` to execute this command.")
     else:
-        await ctx.reply("You're not authorised to use this command.")
+        await ctx.reply("You're not authorised to execute this command.")
+
 
 @client.command(brief='Register yourself tro Trinity Economy commands')
 async def register(ctx):
