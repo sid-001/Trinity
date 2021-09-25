@@ -10,16 +10,16 @@ s_admin = 858195823296905256
 myclient = pymongo.MongoClient("mongodb+srv://SidDB:iqYEMReHesQ0pNAJ@sidbot.81mkh.mongodb.net/retryWrites=true&w=majority")
 mydb = myclient["Trinity"]
 mycol = mydb["Userinfo"]
+Server_prefix = mydb["ServerPrefix"]
 
 
 def cbn(bal):
     res = (format (bal, ','))
     return(str(res))
 
-def get_prefix(client, message): 
-    with open('prefixes.json', 'r') as f: 
-        prefixes = json.load(f) 
-    return prefixes[str(message.guild.id)]
+def get_prefix(client, message):  
+    sprefix = Server_prefix.find_one({"id":message.guild.id})
+    return sprefix["Prefix"]
 
 
 client = commands.Bot(
@@ -34,25 +34,22 @@ client.spam = True
 @client.event
 async def on_ready():
     print("We're ready!")
+    
 @client.event
 async def on_guild_join(guild): 
-    with open('prefixes.json', 'r') as f: 
-        prefixes = json.load(f) 
-
-    prefixes[str(guild.id)] = '$'
-
-    with open('prefixes.json', 'w') as f: 
-        json.dump(prefixes, f, indent=4) 
+    set_prefix = {
+        "Server Name": guild.name,
+        "id": guild.id,
+        "Prefix": "$"
+    }
+    Server_prefix.insert_one(set_prefix)
 
 @client.event
-async def on_guild_remove(guild): 
-    with open('prefixes.json', 'r') as f: 
-        prefixes = json.load(f)
-
-    prefixes.pop(str(guild.id)) 
-
-    with open('prefixes.json', 'w') as f: 
-        json.dump(prefixes, f, indent=4)
+async def on_guild_remove(guild):
+    del_entry = {
+    "id": guild.id
+    }
+    Server_prefix.delete_one(del_entry)
 
 @client.command(brief='For changing the prefix')
 async def prefix(ctx, prefix="$"):
