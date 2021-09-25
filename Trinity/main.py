@@ -3,7 +3,6 @@ import asyncio
 import datetime
 from discord.ext import commands
 import wikipedia
-import json
 import pymongo
 
 s_admin = 858195823296905256
