@@ -100,14 +100,23 @@ async def bal(ctx):
 @client.command(brief='Update your balance to as much you want')
 async def updatebal(ctx, a=100000):
     if ctx.author.id == s_admin and client.Superuser:
-        data = {str(ctx.author.id):a}
-        with open('main.json', 'w') as f:
-            json.dump(data, f)
-        await ctx.reply(f"Your new balance is `{cbn(a)}`")
+        query = {
+        "id": ctx.author.id
+        }
+        newbal = {
+        "$set":{"balance":a}
+        }
+        mycol.update_one(query, newbal)
+        embed=discord.Embed(title=f"Balance updated to {cbn(a)} Successfully.", color=0xFF0000)
+        await ctx.reply(embed=embed)
+
     elif ctx.author.id == s_admin and client.Superuser == False:
-        await ctx.reply("Use `Master Controls` to use this command.")
+        embed=discord.Embed(title="Use Superuser to execute this command.", color=0xFF0000)
+        await ctx.reply(embed=embed)
+
     else:
-        await ctx.reply("You're not authorised to use this command.")
+        embed=discord.Embed(title="You're not authorised to use this command.", color=0xFF0000)
+        await ctx.reply(embed=embed)
 
 @client.command(brief='Shows bot response time')
 async def ping(ctx):
@@ -178,7 +187,7 @@ async def dm(ctx, member: discord.Member, *, content):
 
     try:
         channel = await member.create_dm()
-        embed = discord.Embed(title= f"{ctx.author.name}'s message",description= f"{content}", color=0x0FFFF)
+        embed = discord.Embed(title= f"{ctx.author.name}'s message",description= f"{content}", color=0xFF0000)
         embed.timestamp = datetime.datetime.utcnow()
         await channel.send(embed = embed)
         await ctx.reply("Message sent successfully!")
