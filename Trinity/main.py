@@ -175,7 +175,11 @@ async def root(ctx):
             await ctx.reply(embed=embed)
         else:
             client.Superuser=True
-            embed = discord.Embed(title=f"Superuser Enabled", color=0xFF0000)
+            embed = discord.Embed(title=f"Superuser Enabled For 30 Seconds", color=0xFF0000)
+            await ctx.reply(embed=embed)
+            await asyncio.sleep(30)
+            client.Superuser=False
+            embed = discord.Embed(title=f"Superuser Disabled", color=0xFF0000)
             await ctx.reply(embed=embed)
     else:
             embed = discord.Embed(title=f"You're not authorised to use this command.", color=0xFF0000)
@@ -262,19 +266,28 @@ async def toggle(ctx, command=None):
         await ctx.reply("Use `Master Controls` to execute this command.")
         
 @client.command()
-async def switch(ctx, Mode=None):
-    if client.Superuser == True:
-        if mode == "dnd":
-            await client.change_presence(status=discord.Status.dnd)
-            await ctx.reply("Trinity Status: DND")
-        elif mode == "idle":
-            await client.change_presence(status=discord.Status.idle)
-            await ctx.reply("Trinity Status: Idle")
-        elif mode == "online":
-            await client.change_presence(status=discord.Status.online)
-            await ctx.reply("Trinity Status: Online")
-        else:
-            await ctx.reply("Invalid Input")
+async def dnd(ctx):
+    if client.Superuser:
+        await client.change_presence(status=discord.Status.dnd)
+        await ctx.reply("Trinity Status: DND")
+    else:
+        embed=discord.Embed(title="Use Superuser to execute this command.", color=0xFF0000)
+        await ctx.reply(embed=embed)
+
+@client.command()
+async def idle(ctx):
+    if client.Superuser:
+        await client.change_presence(status=discord.Status.idle)
+        await ctx.reply("Trinity Status: Idle")
+    else:
+        embed=discord.Embed(title="Use Superuser to execute this command.", color=0xFF0000)
+        await ctx.reply(embed=embed)
+
+@client.command()
+async def online(ctx):
+    if client.Superuser:
+        await client.change_presence(status=discord.Status.online)
+        await ctx.reply("Trinity Status: Online")
     else:
         embed=discord.Embed(title="Use Superuser to execute this command.", color=0xFF0000)
         await ctx.reply(embed=embed)
