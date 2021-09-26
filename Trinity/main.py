@@ -260,5 +260,23 @@ async def toggle(ctx, command=None):
             await ctx.reply("Unknown Command ID")
     else:
         await ctx.reply("Use `Master Controls` to execute this command.")
+        
+@client.command()
+async def switch(ctx, Mode=None):
+    if client.Superuser == True:
+        if mode == "dnd":
+            await client.change_presence(status=discord.Status.dnd)
+            await ctx.reply("Trinity Status: DND")
+        elif mode == "idle":
+            await client.change_presence(status=discord.Status.idle)
+            await ctx.reply("Trinity Status: Idle")
+        elif mode == "online":
+            await client.change_presence(status=discord.Status.online)
+            await ctx.reply("Trinity Status: Online")
+        else:
+            await ctx.reply("Invalid Input")
+    else:
+        embed=discord.Embed(title="Use Superuser to execute this command.", color=0xFF0000)
+        await ctx.reply(embed=embed)
            
 client.run('ODg5MzY4NDQ2MTkyNzM0MjA5.YUgO6Q.uBYG00vvUjk4mXXAlZvrsLvGZEU')
