@@ -92,7 +92,7 @@ async def bal(ctx):
     else:
         embed=discord.Embed(title= f"{ctx.author.name}'s balance", color=0xFF0000)
         embed.set_thumbnail(url="https://i.imgur.com/uZIlRnK.png")
-        embed.add_field(name= f"{cbn(user['balance'])}", value="\u200b")
+        embed.add_field(name= f"{cbn(user['balance'])} Coins", value="\u200b")
         embed.timestamp = datetime.datetime.utcnow()
         embed.set_footer(text = "Economy")
         await ctx.send(embed=embed)
