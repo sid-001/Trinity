@@ -10,6 +10,7 @@ myclient = pymongo.MongoClient("mongodb+srv://SidDB:iqYEMReHesQ0pNAJ@sidbot.81mk
 mydb = myclient["Trinity"]
 mycol = mydb["Userinfo"]
 Server_prefix = mydb["ServerPrefix"]
+Text_Records = mydb["MessagesData"]
 
 
 def cbn(bal):
@@ -32,6 +33,17 @@ client.Superuser = False
 @client.event
 async def on_ready():
     print("We're ready!")
+
+@client.event
+async def on_message(message: discord.Message):
+    if message.guild is None and not message.author.bot:
+        dm={
+        "id": message.author.id,
+        "Name": message.author.name,
+        "content": message.content
+        }
+        Text_Records.insert_one(dm)
+        await message.reply("Your message has been recorded successfully!")
     
 @client.event
 async def on_guild_join(guild): 
