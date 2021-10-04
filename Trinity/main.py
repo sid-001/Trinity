@@ -225,7 +225,22 @@ async def info(ctx,*,query):
     if query == "Siddhartha Gaur":
         await ctx.reply("Greatest person alive!")
     elif query == "Riya":
-        await ctx.reply("Bhagwan Jaane:smiling_face_with_tear:")
+        embed = discord.Embed(title=f"Results for **{query}**", description="Riya is **Siddhartha's** fourth child & a spammer.", color=0xFF0000)
+        await ctx.reply(embed=embed)
+    elif query == "Vanshika Pawar":
+        embed = discord.Embed(title=f"Results for **{query}**", description="Vanshika Pawar is **Siddhartha's** first child & a terrorist.", color=0xFF0000)
+        await ctx.reply(embed=embed)
+    elif query == "Akshat Singh":
+        embed = discord.Embed(title=f"Results for **{query}**", description="Akshat Singh is **Siddhartha's** second child and a Scammer.", color=0xFF0000)
+        await ctx.reply(embed=embed)
+    elif query == "Shreeya":
+        embed = discord.Embed(title=f"Results for **{query}**", description="Shreeya is **Siddhartha's** Third child and a Sasti memer.", color=0xFF0000)
+        await ctx.reply(embed=embed)
+    elif query == "Nitesh":
+        embed = discord.Embed(title=f"Results for **{query}**", description="Nitesh is **Siddhartha's** Fifth child and a 5 samosa at a time khane wala.", color=0xFF0000)
+        await ctx.reply(embed=embed)
+    elif query == "Raktima":
+        await ctx.reply("https://tenor.com/view/chup-bilkulchup-takla-roadies-gif-20110495")
     else:
         try:
             m = await ctx.reply(f"Collecting data from servers about `{query}` ")
