@@ -241,6 +241,7 @@ async def info(ctx,*,query):
         await ctx.reply(embed=embed)
     elif query == "Raktima":
         await ctx.reply("https://tenor.com/view/chup-bilkulchup-takla-roadies-gif-20110495")
+        await ctx.reply("https://tenor.com/view/hate-seriously-spoiled-the-mood-sara-mood-kharab-kar-diya-gif-17364046")
     else:
         try:
             m = await ctx.reply(f"Collecting data from servers about `{query}` ")
