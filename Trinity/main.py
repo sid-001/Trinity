@@ -119,7 +119,7 @@ async def updatebal(ctx, a=100000):
 
 @client.command(brief='Shows bot response time')
 async def ping(ctx):
-    await ctx.send('Pong! `{0}ms`'.format(round(client.latency, 1)))
+    await ctx.send('Pong! `{0}ms`'.format(round(client.latency*1000, 1)))
 
 @client.command()
 async def spam(ctx, a:int,*,cont):
