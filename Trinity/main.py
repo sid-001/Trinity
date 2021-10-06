@@ -128,7 +128,7 @@ async def spam(ctx, a:int,*,cont):
     if spamcost>usrbal["balance"]:
         await ctx.reply("You don't have enough balance")
     else:
-        m=await ctx.reply(f"Spam is a bit expensive service one time spam cost is equals to 10,000 coins, so would you like to spam {a} times it will cost you around {cbn(spamcost)} coins?\nReply with Y/N in 10 seconds.")
+        m=await ctx.reply(f"Spam is a bit expensive service one time spam cost is equals to 10,000 coins, so would you like to spam {a} times it will cost you around {cbn(spamcost)} coins?\nReply with y/n in 10 seconds.")
         try:
             message = await client.wait_for('message', check = lambda m: m.author == ctx.author and m.channel==ctx.channel,timeout = 10) 
         
