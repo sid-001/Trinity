@@ -311,6 +311,6 @@ async def online(ctx):
 async def type(ctx,a=5):
     async with ctx.typing():
         await asyncio.sleep(a)
-    await ctx.send(f"I was typing nothing since `{a}` seconds:unamused:")
+    await ctx.reply(f"I was typing nothing since `{a}` seconds:unamused:")
            
 client.run('ODg5MzY4NDQ2MTkyNzM0MjA5.YUgO6Q.uBYG00vvUjk4mXXAlZvrsLvGZEU')
