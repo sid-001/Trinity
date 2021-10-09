@@ -306,5 +306,11 @@ async def online(ctx):
     else:
         embed=discord.Embed(title="Use Superuser to execute this command.", color=0xFF0000)
         await ctx.reply(embed=embed)
+
+@client.command()
+async def type(ctx,a=5):
+    async with ctx.typing():
+        await asyncio.sleep(a)
+    await ctx.send(f"I was typing nothing since `{a}` seconds:unamused:")
            
 client.run('ODg5MzY4NDQ2MTkyNzM0MjA5.YUgO6Q.uBYG00vvUjk4mXXAlZvrsLvGZEU')
