@@ -10,6 +10,8 @@ myclient = pymongo.MongoClient("mongodb+srv://SidDB:iqYEMReHesQ0pNAJ@sidbot.81mk
 mydb = myclient["Trinity"]
 mycol = mydb["Userinfo"]
 Server_prefix = mydb["ServerPrefix"]
+snipe_message_author = {}
+snipe_message_content = {}
 
 def cbn(bal):
     res = (format (bal, ','))
@@ -31,6 +33,24 @@ client.Superuser = False
 @client.event
 async def on_ready():
     print("We're ready!")
+
+@client.event
+async def on_message_delete(message):
+     snipe_message_author[message.channel.id] = message.author
+     snipe_message_content[message.channel.id] = message.content
+     await sleep(60)
+     del snipe_message_author[message.channel.id]
+     del snipe_message_content[message.channel.id]
+
+@client.command(name = 'snipe')
+async def snipe(ctx):
+    channel = ctx.channel
+    try: 
+        em = discord.Embed(title = f"Last deleted message in #{channel.name}", description = snipe_message_content[channel.id],color=0xFF0000)
+        em.set_footer(text = f"This message was sent by {snipe_message_author[channel.id]}")
+        await ctx.send(embed = em)
+    except:
+        await ctx.send(f"There are no recently deleted messages in #{channel.name}")
 
 @client.event
 async def on_guild_join(guild): 
