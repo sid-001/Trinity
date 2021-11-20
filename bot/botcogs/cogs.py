@@ -1,8 +1,8 @@
 from discord.ext import commands
-from .embed import Trinity_Embeds
+from ..Embeds import embed
 import asyncio
 
-embeds = Trinity_Embeds()
+embeds = embed.Trinity_Embeds()
 
 class Trinity(commands.Cog):
     def __init__(self, bot):

@@ -2,7 +2,7 @@ from discord.ext import commands
 from discord.ext.commands import cog
 from dotenv import load_dotenv
 from decouple import config
-from .cogs import 
+from botcogs import cogs
 
 
 TOKEN = config("Token")
@@ -14,6 +14,6 @@ client = commands.Bot(
     command_prefix='s!',
 )
 
-client.load_extension("setup")
+client.load_extension("cogs")
 
 client.run(TOKEN)
