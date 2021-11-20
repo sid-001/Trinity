@@ -10,12 +10,20 @@ myclient = pymongo.MongoClient("mongodb+srv://SidDB:iqYEMReHesQ0pNAJ@sidbot.81mk
 mydb = myclient["Trinity"]
 mycol = mydb["Userinfo"]
 Server_prefix = mydb["ServerPrefix"]
+botadmin = mydb["Admin"]
 snipe_message_author = {}
 snipe_message_content = {}
 
 def cbn(bal):
     res = (format (bal, ','))
     return(str(res))
+
+def issuper(uid):
+    result = botadmin.find_one({"id": uid})
+    if result == None:
+        return False
+    else:
+        return True
 
 def get_prefix(client, message):  
     sprefix = Server_prefix.find_one({"id":message.guild.id})
@@ -70,7 +78,7 @@ async def on_guild_remove(guild):
 
 @client.command(brief='For changing the prefix')
 async def prefix(ctx, prefix="$"):
-    if ctx.author.id == s_admin and client.Superuser:
+    if issuper(ctx.author.id):
         query = {
             "id": ctx.guild.id
         }
@@ -118,7 +126,7 @@ async def bal(ctx):
 
 @client.command(brief='Update your balance to as much you want')
 async def updatebal(ctx, a=100000):
-    if ctx.author.id == s_admin and client.Superuser:
+    if issuper(ctx.author.id):
         query = {
         "id": ctx.author.id
         }
@@ -147,6 +155,8 @@ async def spam(ctx, a:int,*,cont):
     usrbal = mycol.find_one({"id":ctx.author.id})
     if spamcost>usrbal["balance"]:
         await ctx.reply("You don't have enough balance")
+    elif a<0:
+        await ctx.reply("Can't be smaller than 0")
     else:
         m=await ctx.reply(f"Spam is a bit expensive service one time spam cost is equals to 10,000 coins, so would you like to spam {a} times it will cost you around {cbn(spamcost)} coins?\nReply with y/n in 10 seconds.")
         try:
@@ -328,9 +338,23 @@ async def online(ctx):
         await ctx.reply(embed=embed)
 
 @client.command()
-async def type(ctx,a=5):
-    async with ctx.typing():
-        await asyncio.sleep(a)
-    await ctx.reply(f"I was typing nothing since `{a}` seconds:unamused:")
+async def Superuser(ctx, user: discord.User):
+    if issuper(ctx.author.id):        
+        adminlist = botadmin.find_one({"id": user.id})
+        if adminlist == None:
+            userinfo = {
+            "name": user.name,
+            "discriminator": user.discriminator,
+            "id": user.id,
+            }
+            botadmin.insert_one(userinfo)
+            embed=discord.Embed(title=f"Registered {user.name} as Superuser successfully!", color=0xFF0000)
+            await ctx.reply(embed=embed)
+        else:
+            embed=discord.Embed(title=f"{user.name} is already a Superuser!.", color=0xFF0000)
+            await ctx.reply(embed=embed)
+    else:
+        embed=discord.Embed(title="Developer-Only Command: You're not authorised to use this command!", color=0xFF0000)
+        await ctx.reply(embed=embed)
            
 client.run('ODg5MzY4NDQ2MTkyNzM0MjA5.YUgO6Q.uBYG00vvUjk4mXXAlZvrsLvGZEU')
