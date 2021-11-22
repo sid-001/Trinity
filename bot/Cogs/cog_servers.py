@@ -20,6 +20,7 @@ class Trinity(commands.Cog):
                 _countStr += f"{str(count)}\n"
                 index += 1
             msg = await ctx.reply(embed=embed_servers.Servers(lists=lists, namestr=_nameStr, countstr=_countStr))
+            await msg.add_reaction("🗑️")
             await asyncio.sleep(15)
             await msg.edit(content="You Baka! Sus")
             await msg.delete()
