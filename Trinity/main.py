@@ -14,6 +14,8 @@ botadmin = mydb["Admin"]
 snipe_message_author = {}
 snipe_message_content = {}
 
+greets = [hi,hello,hey,hlo,hii]
+
 def cbn(bal):
     res = (format (bal, ','))
     return(str(res))
@@ -44,7 +46,8 @@ async def on_ready():
     
 @client.event
 async def on_message(message):
-    if message.content.startswith('hi', 'hello'):
+    result = any(s.startswith(x) for x in prefixes)
+    if message.content.lower() in greets:
         await message.reply(f"Hello {message.author.nick}, I'm dad!")
 
     await client.process_commands(message)
