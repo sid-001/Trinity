@@ -43,6 +43,14 @@ async def on_ready():
     print("We're ready!")
     
 @client.event
+async def on_message(message):
+    if message.content.startswith('-debug'):
+        await message.channel.send('d')
+
+    await bot.process_commands(message)
+
+    
+@client.event
 async def on_message_delete(message):
      snipe_message_author[message.channel.id] = message.author
      snipe_message_content[message.channel.id] = message.content
