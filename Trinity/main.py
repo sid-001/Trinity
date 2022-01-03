@@ -47,7 +47,7 @@ async def on_message(message):
     if message.content.startswith('-debug'):
         await message.channel.send('d')
 
-    await bot.process_commands(message)
+    await client.process_commands(message)
 
     
 @client.event
