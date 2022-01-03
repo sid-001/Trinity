@@ -43,14 +43,6 @@ async def on_ready():
     print("We're ready!")
     
 @client.event
-async def on_message(message):
-    if message.author == client.user:
-        return
-
-    if message.content.startswith('hi'):
-        await message.channel.reply('Hello!')
-
-@client.event
 async def on_message_delete(message):
      snipe_message_author[message.channel.id] = message.author
      snipe_message_content[message.channel.id] = message.content
