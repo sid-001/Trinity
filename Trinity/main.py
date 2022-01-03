@@ -14,7 +14,7 @@ botadmin = mydb["Admin"]
 snipe_message_author = {}
 snipe_message_content = {}
 
-greets = [hi,hello,hey,hlo,hii]
+greets = ["hi","hello","hey","hlo","hii"]
 
 def cbn(bal):
     res = (format (bal, ','))
