@@ -44,8 +44,8 @@ async def on_ready():
     
 @client.event
 async def on_message(message):
-    if message.content.startswith('-debug'):
-        await message.channel.send('d')
+    if message.content.startswith('hi' or 'hello'):
+        await message.channel.reply(f"Hello {message.author.nick}, I'm dad!")
 
     await client.process_commands(message)
 
