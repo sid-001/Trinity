@@ -46,7 +46,7 @@ async def on_ready():
     
 @client.event
 async def on_message(message):
-    if message.content.lower() in greets and messege.author.id != s_admin:
+    if message.content.lower() in greets and message.author.id != s_admin:
         await message.reply(f"Hey {message.author.nick}, I'm your dad!")
 
     await client.process_commands(message)
