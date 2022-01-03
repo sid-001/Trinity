@@ -47,10 +47,10 @@ async def on_ready():
 @client.event
 async def on_message(message):
     if (message.content.lower().startswith('hi')):
-        await message.send("Hey, I'm your dad!")
+        await message.channel.send("Hey, I'm your dad!")
         
     elif (message.content.lower().startswith('hello')):
-        await message.send("Hey, I'm your dad!")
+        await message.channel.send("Hey, I'm your dad!")
 
     await client.process_commands(message)
 
