@@ -44,8 +44,8 @@ async def on_ready():
     
 @client.event
 async def on_message(message):
-    if message.content.startswith() == "Hi":
-        await message.channel.reply(f"Hi {message.author.name}, I'm dad")
+    if message.content.startswith("Hi")
+        await message.channel.reply(f"Hello {message.author.nick}, I'm dad")
 
 @client.event
 async def on_message_delete(message):
