@@ -46,7 +46,6 @@ async def on_ready():
     
 @client.event
 async def on_message(message):
-    result = any(s.startswith(x) for x in prefixes)
     if message.content.lower() in greets:
         await message.reply(f"Hello {message.author.nick}, I'm dad!")
 
