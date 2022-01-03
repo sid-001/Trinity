@@ -46,20 +46,8 @@ async def on_ready():
     
 @client.event
 async def on_message(message):
-    if (message.content.lower().startswith('hi') and message.author.id!=s_admin and message.author != bot.user):
-        await message.reply("hello, I'm your dad!")
-        
-    elif (message.content.lower().startswith('hello') and message.author.id!=s_admin and message.author != bot.user):
-        await message.reply("Hey, I'm your dad!")
-    
-    elif (message.content.lower().startswith('hey') and message.author.id!=s_admin and message.author != bot.user):
-        await message.reply("Hi, I'm your dad!")
-        
-    elif (message.content.lower().startswith('hlo') and message.author.id!=s_admin and message.author != bot.user):
-        await message.reply("Hello, I'm your dad!")
-        
-    elif (message.content.lower().startswith('hemlo') and message.author.id!=s_admin and message.author != bot.user):
-        await message.reply("Hola, I'm your dad!")
+        if message.content.lower() in greets and messege.author.id != s_admin:
+        await message.reply(f"Hey {message.author.nick}, I'm your dad!")
 
     await client.process_commands(message)
 
