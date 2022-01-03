@@ -41,6 +41,11 @@ client.Superuser = False
 @client.event
 async def on_ready():
     print("We're ready!")
+    
+@client.event
+async def on_message(message):
+    if message.content.startswith() == "Hi":
+        await message.channel.reply(f"Hi {message.author.name}, I'm dad")
 
 @client.event
 async def on_message_delete(message):
