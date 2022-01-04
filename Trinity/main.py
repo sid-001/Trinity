@@ -55,7 +55,6 @@ async def on_message(message):
     else:
         name1 = message.author.nick
 
-
     if (message.content.lower().startswith('hi') and message.author.id != s_admin):
         await message.reply(f"Hello {name1}, I'm your dad!")
 
@@ -84,7 +83,6 @@ async def on_message(message):
 async def on_message_delete(message):
      snipe_message_author[message.channel.id] = message.author
      snipe_message_content[message.channel.id] = message.content
-     await sleep(60)
      del snipe_message_author[message.channel.id]
      del snipe_message_content[message.channel.id]
 
