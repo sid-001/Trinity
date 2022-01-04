@@ -14,7 +14,7 @@ botadmin = mydb["Admin"]
 snipe_message_author = {}
 snipe_message_content = {}
 
-greets = ["hi","hello","hey","hlo","hii"]
+
 
 def cbn(bal):
     res = (format (bal, ','))
@@ -46,8 +46,36 @@ async def on_ready():
     
 @client.event
 async def on_message(message):
-    if message.content.lower() in greets and message.author.id != s_admin:
-        await message.reply(f"Hey {message.author.nick}, I'm your dad!")
+    if message.author == client.user:
+        return
+
+    if message.author.nick == None:
+        name1 = message.author.name
+
+    else:
+        name1 = message.author.nick
+
+
+    if (message.content.lower().startswith('hi') and message.author.id != s_admin):
+        await message.reply(f"Hello {name1}, I'm your dad!")
+
+    elif (message.content.lower().startswith('hello') and message.author.id != s_admin):
+        await message.reply(f"Hey {name1}, I'm your dad!")
+
+    elif (message.content.lower().startswith('hey') and message.author.id != s_admin):
+        await message.reply(f"Hi {name1}, I'm your dad!")
+
+    elif (message.content.lower().startswith('hlo') and message.author.id != s_admin):
+        await message.reply(f"Hello {name1}, I'm your dad!")
+
+    elif (message.content.lower().startswith('hola') and message.author.id != s_admin):
+        await message.reply(f"Hi {name1}, I'm your dad!")
+
+    elif (message.content.lower().startswith('bye') and message.author.id != s_admin):
+        await message.reply(f"Nikal {name1}, Pehli Fursat Mein Nikal No One Cares About You!")
+
+    elif (message.content.lower().startswith('sup') and message.author.id != s_admin):
+        await message.reply(f"{name1}, Mind your own business!")
 
     await client.process_commands(message)
 
