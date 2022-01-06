@@ -140,8 +140,8 @@ async def prefix(ctx, prefix="$"):
 async def targetmode(ctx):
     if ctx.author.id == s_admin:
         if client.target:
-            client.target == False
-            await ctx.send("*Target Mode Disable!")
+            client.target = False
+            await ctx.send("Target Mode Disable!")
         else:
             client.target = True
             await ctx.send("*Target Mode Enabled!*")
@@ -179,20 +179,20 @@ async def register(ctx):
         "balance": 86400
         }
         mycol.insert_one(userinfo)
-        embed=discord.Embed(title="Registered Successfully.", color=0xFF0000)
+        embed=discord.Embed(title="Registered Successfully.", color=0xaa66ea)
         await ctx.reply(embed=embed)
     else:
-        embed=discord.Embed(title="You're already registered.", color=0xFF0000)
+        embed=discord.Embed(title="You're already registered.", color=0xaa66ea)
         await ctx.reply(embed=embed)
 
 @client.command(brief='Shows you current balance')
 async def bal(ctx):
     user = mycol.find_one({"id":ctx.author.id})
     if user == None:
-        embed=discord.Embed(title="You're not registered yet.", color=0xFF0000)
+        embed=discord.Embed(title="You're not registered yet.", color=0xaa66ea)
         await ctx.reply(embed=embed)
     else:
-        embed=discord.Embed(title= f"{ctx.author.name}'s balance", color=0xFF0000)
+        embed=discord.Embed(title= f"{ctx.author.name}'s balance", color=0xaa66ea)
         embed.set_thumbnail(url="https://i.imgur.com/uZIlRnK.png")
         embed.add_field(name= f"{cbn(user['balance'])} Coins", value="\u200b")
         embed.timestamp = datetime.datetime.utcnow()
@@ -209,15 +209,15 @@ async def updatebal(ctx, a=100000):
         "$set":{"balance":a}
         }
         mycol.update_one(query, newbal)
-        embed=discord.Embed(title=f"Balance updated to {cbn(a)} Successfully.", color=0xFF0000)
+        embed=discord.Embed(title=f"Balance updated to {cbn(a)} Successfully.", color=0xaa66ea)
         await ctx.reply(embed=embed)
 
     elif ctx.author.id == s_admin and client.Superuser == False:
-        embed=discord.Embed(title="Use Superuser to execute this command.", color=0xFF0000)
+        embed=discord.Embed(title="Use Superuser to execute this command.", color=0xaa66ea)
         await ctx.reply(embed=embed)
 
     else:
-        embed=discord.Embed(title="You're not authorised to use this command.", color=0xFF0000)
+        embed=discord.Embed(title="You're not authorised to use this command.", color=0xaa66ea)
         await ctx.reply(embed=embed)
 
 @client.command(brief='Shows bot response time')
@@ -299,7 +299,7 @@ async def dm(ctx, member: discord.Member, *, content):
 
     try:
         channel = await member.create_dm()
-        embed = discord.Embed(title= f"{ctx.author.name}'s message",description= f"{content}", color=0xFF0000)
+        embed = discord.Embed(title= f"{ctx.author.name}'s message",description= f"{content}", color=0xaa66ea)
         embed.timestamp = datetime.datetime.utcnow()
         await channel.send(embed = embed)
         await ctx.reply("Message sent successfully!")
@@ -355,11 +355,11 @@ async def info(ctx,*,query):
         try:
             m = await ctx.reply(f"Collecting data from servers about `{query}` ")
             results = wikipedia.summary(query, sentences = 2)
-            embed = discord.Embed(title=f"Results for **{query}**", description=f"{results}", color=0xFF0000)
+            embed = discord.Embed(title=f"Results for **{query}**", description=f"{results}", color=0xaa66ea)
             await m.delete()
             await ctx.reply(embed=embed)
         except Exception as e:
-            embed = discord.Embed(title="**Something went wrong**", description=f"{e}", color=0xFF0000)
+            embed = discord.Embed(title="**Something went wrong**", description=f"{e}", color=0xaa66ea)
             await m.delete()
             await ctx.reply(embed=embed)
 
@@ -395,7 +395,7 @@ async def dnd(ctx):
         await client.change_presence(status=discord.Status.dnd)
         await ctx.reply("Trinity Status: DND")
     else:
-        embed=discord.Embed(title="Use Superuser to execute this command.", color=0xFF0000)
+        embed=discord.Embed(title="Use Superuser to execute this command.", color=0xaa66ea)
         await ctx.reply(embed=embed)
 
 @client.command()
@@ -404,7 +404,7 @@ async def idle(ctx):
         await client.change_presence(status=discord.Status.idle)
         await ctx.reply("Trinity Status: Idle")
     else:
-        embed=discord.Embed(title="Use Superuser to execute this command.", color=0xFF0000)
+        embed=discord.Embed(title="Use Superuser to execute this command.", color=0xaa66ea)
         await ctx.reply(embed=embed)
 
 @client.command()
@@ -413,7 +413,7 @@ async def online(ctx):
         await client.change_presence(status=discord.Status.online)
         await ctx.reply("Trinity Status: Online")
     else:
-        embed=discord.Embed(title="Use Superuser to execute this command.", color=0xFF0000)
+        embed=discord.Embed(title="Use Superuser to execute this command.", color=0xaa66ea)
         await ctx.reply(embed=embed)
 
 @client.command()
@@ -427,13 +427,13 @@ async def Superuser(ctx, user: discord.User):
             "id": user.id,
             }
             botadmin.insert_one(userinfo)
-            embed=discord.Embed(title=f"Registered {user.name} as Superuser successfully!", color=0xFF0000)
+            embed=discord.Embed(title=f"Registered {user.name} as Superuser successfully!", color=0xaa66ea)
             await ctx.reply(embed=embed)
         else:
-            embed=discord.Embed(title=f"{user.name} is already a Superuser!.", color=0xFF0000)
+            embed=discord.Embed(title=f"{user.name} is already a Superuser!.", color=0xaa66ea)
             await ctx.reply(embed=embed)
     else:
-        embed=discord.Embed(title="Developer-Only Command: You're not authorised to use this command!", color=0xFF0000)
+        embed=discord.Embed(title="Developer-Only Command: You're not authorised to use this command!", color=0xaa66ea)
         await ctx.reply(embed=embed)
            
 client.run('ODg5MzY4NDQ2MTkyNzM0MjA5.YUgO6Q.uBYG00vvUjk4mXXAlZvrsLvGZEU')
