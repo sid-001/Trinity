@@ -69,7 +69,7 @@ async def on_message(message):
         await message.reply(f"Hey {name1}, I'm your dad!")
 
     elif (message.content.lower().startswith('hey') and message.author.id != s_admin):
-        await message.reply(f"Hi {name1},Jaa jaake bartan dho!")
+        await message.reply(f"Hi {name1}, Jaa jaake bartan dho!")
 
     elif (message.content.lower().startswith('hlo') and message.author.id != s_admin):
         await message.reply(f"Hello {name1}, I'm your dad!")
@@ -153,6 +153,16 @@ async def te(ctx,newev):
         await ctx.reply(f"**Emoji Value:** *{emoji}*")
     else:
         await ctx.reply("*Manual Override Required!*")
+        
+@client.command()
+async def remove(ctx, user: discord.User):
+    try:
+        targetusers.remove(user.id)
+        await ctx.reply(f"Removed: {user}")
+    except exception as e:
+        await ctx.reply(f"User not Found:{e}")
+        
+        
 
 @client.command()
 async def targetusr(ctx, user: discord.User):
