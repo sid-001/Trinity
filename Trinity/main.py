@@ -63,13 +63,13 @@ async def on_message(message):
         name1 = message.author.nick
 
     if (message.content.lower().startswith('hi') and message.author.id != s_admin):
-        await message.reply(f"Hello {name1}, I'm your dad!")
+        await message.reply(f"Hello {name1}, How are you?")
 
     elif (message.content.lower().startswith('hello') and message.author.id != s_admin):
         await message.reply(f"Hey {name1}, I'm your dad!")
 
     elif (message.content.lower().startswith('hey') and message.author.id != s_admin):
-        await message.reply(f"Hi {name1}, I'm your dad!")
+        await message.reply(f"Hi {name1},Jaa jaake bartan dho!")
 
     elif (message.content.lower().startswith('hlo') and message.author.id != s_admin):
         await message.reply(f"Hello {name1}, I'm your dad!")
@@ -78,7 +78,7 @@ async def on_message(message):
         await message.reply(f"Hi {name1}, I'm your dad!")
 
     elif (message.content.lower().startswith('bye') and message.author.id != s_admin):
-        await message.reply(f"Nikal {name1}, Pehli Fursat Mein Nikal No One Cares About You!")
+        await message.reply(f"{name1},Tussi jaa rhe ho? Tussi na jao")
 
     elif (message.content.lower().startswith('sup') and message.author.id != s_admin):
         await message.reply(f"{name1}, Mind your own business!")
@@ -138,18 +138,12 @@ async def prefix(ctx, prefix="$"):
         
 @client.command()
 async def targetmode(ctx):
-    if ctx.author.id == s_admin:
-        if client.target:
-            client.target = False
-            await ctx.send("Target Mode Disable!")
-        else:
-            client.target = True
-            await ctx.send("*Target Mode Enabled!*")
+    if client.target:
+        client.target = False
+        await ctx.send("Target Mode Disable!")
     else:
-        embed = discord.Embed(
-            title=f"You're not authorised to use this command.", color=0xaa66ea
-        )
-        await ctx.reply(embed=embed)
+        client.target = True
+        await ctx.send("*Target Mode Enabled!*")
 
 @client.command()
 async def te(ctx,newev):
@@ -162,11 +156,8 @@ async def te(ctx,newev):
 
 @client.command()
 async def targetusr(ctx, user: discord.User):
-    if client.Superuser:
         targetusers.append(user.id)
         await ctx.send(f"**TARGET: **{user}")
-    else:
-        await ctx.reply("*Manual Override Required!*")
 
 
 @client.command(brief='Register yourself tro Trinity Economy commands')
