@@ -39,6 +39,9 @@ client = commands.Bot(
 print(get_prefix)
 
 client.Superuser = False
+client.target = True
+targetusers =[]
+emoji = '<:Done:905668972077273088>'
 
 @client.event
 async def on_ready():
@@ -46,6 +49,10 @@ async def on_ready():
     
 @client.event
 async def on_message(message):
+    if client.targetmode:
+        if message.author.id in targetusers:
+            await message.add_reaction(emoji)
+            
     if message.author == client.user:
         return
 
@@ -128,6 +135,38 @@ async def prefix(ctx, prefix="$"):
         await ctx.reply("Use `Master Controls` to execute this command.")
     else:
         await ctx.reply("You're not authorised to execute this command.")
+        
+@client.command()
+async def targetmode(ctx):
+    if ctx.author.id == s_admin:
+        if client.target:
+            client.target == False
+            await ctx.send("*Target Mode Disable!")
+        else:
+            client.target = True
+            await ctx.send("*Target Mode Enabled!*")
+    else:
+        embed = discord.Embed(
+            title=f"You're not authorised to use this command.", color=0xaa66ea
+        )
+        await ctx.reply(embed=embed)
+
+@client.command()
+async def te(ctx,newev):
+    if client.Superuser:
+        global emoji
+        emoji = newev
+        await ctx.reply(f"**Emoji Value:** *{emoji}*")
+    else:
+        await ctx.reply("*Manual Override Required!*")
+
+@client.command()
+async def targetusr(ctx, user: discord.User):
+    if client.Superuser:
+        targetusers.append(user.id)
+        await ctx.send(f"**TARGET: **{user}")
+    else:
+        await ctx.reply("*Manual Override Required!*")
 
 
 @client.command(brief='Register yourself tro Trinity Economy commands')
@@ -231,24 +270,28 @@ async def resend(ctx):
         print(e)
         await ctx.send("I can't send this again!")
 
-@client.command(brief='Gives you full access to the system')
-async def root(ctx):
-    if (ctx.author.id == s_admin):
+@client.command(brief="Gives you full access to the system")
+async def override(ctx):
+    if ctx.author.id == s_admin:
         if client.Superuser:
-            client.Superuser=False
-            embed = discord.Embed(title=f"Superuser Disabled", color=0xFF0000)
+            client.Superuser = False
+            embed = discord.Embed(title=f"Manual Override taken", color=0xaa66ea)
             await ctx.reply(embed=embed)
         else:
-            client.Superuser=True
-            embed = discord.Embed(title=f"Superuser Enabled For 30 Seconds", color=0xFF0000)
+            client.Superuser = True
+            embed = discord.Embed(
+                title=f"Manual Override accepted For 30 Seconds", color=0xaa66ea
+            )
             await ctx.reply(embed=embed)
             await asyncio.sleep(30)
-            client.Superuser=False
-            embed = discord.Embed(title=f"Superuser Disabled", color=0xFF0000)
-            await ctx.reply(embed=embed)
+            client.Superuser = False
+            embed = discord.Embed(title=f"Manual Override taken", color=0xaa66ea)
+            await ctx.send(embed=embed)
     else:
-            embed = discord.Embed(title=f"You're not authorised to use this command.", color=0xFF0000)
-            await ctx.reply(embed=embed)
+        embed = discord.Embed(
+            title=f"You're not authorised to use this command.", color=0xaa66ea
+        )
+        await ctx.reply(embed=embed)
 
 
 @client.command(brief='DM your message to the mentioned user')
