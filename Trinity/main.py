@@ -159,7 +159,7 @@ async def remove(ctx, user: discord.User):
     try:
         targetusers.remove(user.id)
         await ctx.reply(f"Removed: {user}")
-    except exception as e:
+    except Exception as e:
         await ctx.reply(f"User not Found:{e}")
         
         
