@@ -49,7 +49,7 @@ async def on_ready():
     
 @client.event
 async def on_message(message):
-    if client.targetmode:
+    if client.target:
         if message.author.id in targetusers:
             await message.add_reaction(emoji)
             
