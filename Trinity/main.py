@@ -45,6 +45,7 @@ emoji = '<:Done:905668972077273088>'
 
 @client.event
 async def on_ready():
+    await client.change_presence(activity=discord.Activity(type=discord.ActivityType.listening, name="Siddhartha"))
     print("We're ready!")
     
 @client.event
@@ -97,7 +98,7 @@ async def on_message_delete(message):
 async def snipe(ctx):
     channel = ctx.channel
     try: 
-        em = discord.Embed(title = f"Last deleted message in #{channel.name}", description = snipe_message_content[channel.id],color=0xFF0000)
+        em = discord.Embed(title = f"Last deleted message in #{channel.name}", description = snipe_message_content[channel.id],color=0xaa66ea)
         em.set_footer(text = f"This message was sent by {snipe_message_author[channel.id]}")
         await ctx.send(embed = em)
     except:
@@ -129,7 +130,7 @@ async def prefix(ctx, prefix="$"):
             "$set":{"Prefix": prefix}
         }
         Server_prefix.update_one(query, newprefix)
-        embed = discord.Embed(title=f"Prefix changed to {prefix}", color=0xFF0000)
+        embed = discord.Embed(title=f"Prefix changed to {prefix}", color=0xaa66ea)
         await ctx.reply(embed=embed)
     elif ctx.author.id == s_admin and client.Superuser == False:
         await ctx.reply("Use `Master Controls` to execute this command.")
@@ -160,7 +161,7 @@ async def remove(ctx, user: discord.User):
         targetusers.remove(user.id)
         await ctx.reply(f"Removed: {user}")
     except Exception as e:
-        await ctx.reply(f"User not Found:{e}")
+        await ctx.reply(f"User not Found: {e}")
         
         
 
