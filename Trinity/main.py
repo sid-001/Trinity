@@ -4,9 +4,10 @@ import datetime
 from discord.ext import commands
 import wikipedia
 import pymongo
+import config
 
 s_admin = 858195823296905256
-myclient = pymongo.MongoClient("mongodb+srv://SidDB:iqYEMReHesQ0pNAJ@sidbot.81mkh.mongodb.net/retryWrites=true&w=majority")
+myclient = pymongo.MongoClient(config.dbstring)
 mydb = myclient["Trinity"]
 mycol = mydb["Userinfo"]
 Server_prefix = mydb["ServerPrefix"]
@@ -438,4 +439,4 @@ async def Superuser(ctx, user: discord.User):
         embed=discord.Embed(title="Developer-Only Command: You're not authorised to use this command!", color=0xaa66ea)
         await ctx.reply(embed=embed)
            
-client.run('ODg5MzY4NDQ2MTkyNzM0MjA5.YUgO6Q.uBYG00vvUjk4mXXAlZvrsLvGZEU')
+client.run(config.bot_token)
