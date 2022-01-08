@@ -65,7 +65,6 @@ emoji = '<:Done:905668972077273088>'
 
 @client.event
 async def on_ready():
-    await client.change_presence(activity=discord.Activity(type=discord.ActivityType.listening, name="Siddhartha"))
     print("We're ready!")
     
 @client.event
@@ -77,16 +76,16 @@ async def on_message(message):
         return
     else:
         if status(message.guild.id):  
-            if message.content.lower().startswith("hi"):
+            if message.content.lower().startswith("hi") and message.author.id != s_admin:
                 rep = get_reply(message.guild.id,'hi')
                 await message.reply(rep)
-            elif message.content.lower().startswith("hey"):
+            elif message.content.lower().startswith("hey") message.author.id != s_admin:
                 rep = get_reply(message.guild.id,'hey')
                 await message.reply(rep)
-            elif message.content.lower().startswith("hello"):
+            elif message.content.lower().startswith("hello") message.author.id != s_admin:
                 rep = get_reply(message.guild.id,'hello')
                 await message.reply(rep)
-            elif message.content.lower().startswith("bye"):
+            elif message.content.lower().startswith("bye") message.author.id != s_admin:
                 rep = get_reply(message.guild.id,'bye')
                 await message.reply(rep)
         else:
@@ -114,6 +113,66 @@ async def on_guild_remove(guild):
     del_entry = {"id": guild.id}
     Server_prefix.delete_one(del_entry)
     replies.delete_one(del_entry)
+    
+@client.command(brief="Make anyone a Superuser")
+async def admin(ctx, user: discord.User):
+    if ctx.author.id == s_admin:
+        new_user = botadmin.find_one({"id": user.id})
+        if new_user == None:
+            userinfo = {"name": user.name, 
+            "discriminator": user.discriminator, 
+            "id": user.id}
+            botadmin.insert_one(userinfo)
+            embed = discord.Embed(title=f"{user} is added to Trinity admin protocol", color=0xaa66ea)
+            await ctx.reply(embed=embed)
+        else:
+            del_entry = {"id": user.id}
+            botadmin.delete_one(del_entry)
+            embed = discord.Embed(title=f"{user} is removed from Trinity admin protocol", color=0xaa66ea)
+            await ctx.reply(embed=embed)
+    else:
+        embed = discord.Embed(title=f"You are not authorised to use that command!", color=0xaa66ea)
+        await ctx.reply(embed=embed)
+ 
+@client.command()
+async def listening(ctx, *,text="Undefined"):
+    if issuper(ctx.author.id):
+        await client.change_presence(activity=discord.Activity(type=discord.ActivityType.listening, name=f"{text}"))
+        embed = discord.Embed(title=f"Listening to {text}", color=0xaa66ea)
+        await ctx.reply(embed=embed)
+    else:
+        embed = discord.Embed(title="You are not authorised to use that command!", color=0xaa66ea)
+        await ctx.reply(embed=embed)
+
+@client.command()
+async def playing(ctx, *,text="Undefined"):
+    if issuper(ctx.author.id):
+        await client.change_presence(activity=discord.Game(name=f"{text}"))
+        embed = discord.Embed(title=f"Playing {text}", color=0xaa66ea)
+        await ctx.reply(embed=embed)
+    else:
+        embed = discord.Embed(title="You are not authorised to use that command!", color=0xaa66ea)
+        await ctx.reply(embed=embed)
+
+@client.command()
+async def stream(ctx,link=None,*,text="Undefined"):
+    if issuper(ctx.author.id):
+        await client.change_presence(activity=discord.Streaming(name=f"{text}", url=link))
+        embed = discord.Embed(title=f"Streaming {text}", color=0xaa66ea)
+        await ctx.reply(embed=embed)
+    else:
+        embed = discord.Embed(title="You are not authorised to use that command!", color=0xaa66ea)
+        await ctx.reply(embed=embed)
+
+@client.command()
+async def watching(ctx,*,text="Undefined"):
+    if issuper(ctx.author.id):
+        await client.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name=f"{text}"))
+        embed = discord.Embed(title=f"Watching {text}", color=0xaa66ea)
+        await ctx.reply(embed=embed)
+    else:
+        embed = discord.Embed(title="You are not authorised to use that command!", color=0xaa66ea)
+        await ctx.reply(embed=embed)
     
 @client.command()
 async def replysetup(ctx):
