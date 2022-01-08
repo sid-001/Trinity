@@ -11,10 +11,30 @@ mydb = myclient["Trinity"]
 mycol = mydb["Userinfo"]
 Server_prefix = mydb["ServerPrefix"]
 botadmin = mydb["Admin"]
-snipe_message_author = {}
-snipe_message_content = {}
+replies = mydb["autoreplies"]
 
 
+def status(server_id):
+    result = replies.find_one({"id": server_id})
+    if result != None:
+        x = [result['status']]
+        return x[0]
+    else:
+        return False
+    
+def get_reply(server_id,msg):
+    result = replies.find_one({"id":server_id})
+    if result == None:
+        return("No Replies found!")
+    else:
+        if msg == 'hi':
+            return(result['hi'])
+        elif msg == 'hey':
+            return(result['hey'])
+        elif msg == 'hello':
+            return(result['hello'])
+        elif msg == 'bye':
+            return(result['bye'])
 
 def cbn(bal):
     res = (format (bal, ','))
@@ -53,72 +73,132 @@ async def on_message(message):
     if client.target:
         if message.author.id in targetusers:
             await message.add_reaction(emoji)
-            
-    if message.author == client.user:
+    if message.author.bot:
         return
-
-    if message.author.nick == None:
-        name1 = message.author.name
-
     else:
-        name1 = message.author.nick
-
-    if (message.content.lower().startswith('hi') and message.author.id != s_admin):
-        await message.reply(f"Hello {name1}, How are you?")
-
-    elif (message.content.lower().startswith('hello') and message.author.id != s_admin):
-        await message.reply(f"Hey {name1}, I'm your dad!")
-
-    elif (message.content.lower().startswith('hey') and message.author.id != s_admin):
-        await message.reply(f"Hi {name1}, Jaa jaake bartan dho!")
-
-    elif (message.content.lower().startswith('hlo') and message.author.id != s_admin):
-        await message.reply(f"Hello {name1}, I'm your dad!")
-
-    elif (message.content.lower().startswith('hola') and message.author.id != s_admin):
-        await message.reply(f"Hi {name1}, I'm your dad!")
-
-    elif (message.content.lower().startswith('bye') and message.author.id != s_admin):
-        await message.reply(f"{name1},Tussi jaa rhe ho? Tussi na jao")
-
-    elif (message.content.lower().startswith('sup') and message.author.id != s_admin):
-        await message.reply(f"{name1}, Mind your own business!")
+        if status(message.guild.id):  
+            if message.content.lower().startswith("hi"):
+                rep = get_reply(message.guild.id,'hi')
+                await message.reply(rep)
+            elif message.content.lower().startswith("hey"):
+                rep = get_reply(message.guild.id,'hey')
+                await message.reply(rep)
+            elif message.content.lower().startswith("hello"):
+                rep = get_reply(message.guild.id,'hello')
+                await message.reply(rep)
+            elif message.content.lower().startswith("bye"):
+                rep = get_reply(message.guild.id,'bye')
+                await message.reply(rep)
+        else:
+            pass
 
     await client.process_commands(message)
-
     
-@client.event
-async def on_message_delete(message):
-     snipe_message_author[message.channel.id] = message.author
-     snipe_message_content[message.channel.id] = message.content
-     del snipe_message_author[message.channel.id]
-     del snipe_message_content[message.channel.id]
-
-@client.command(name = 'snipe')
-async def snipe(ctx):
-    channel = ctx.channel
-    try: 
-        em = discord.Embed(title = f"Last deleted message in #{channel.name}", description = snipe_message_content[channel.id],color=0xaa66ea)
-        em.set_footer(text = f"This message was sent by {snipe_message_author[channel.id]}")
-        await ctx.send(embed = em)
-    except:
-        await ctx.send(f"There are no recently deleted messages in #{channel.name}")
 
 @client.event
-async def on_guild_join(guild): 
-    set_prefix = {
-        "Server Name": guild.name,
-        "id": guild.id,
-        "Prefix": "$"
-    }
+async def on_guild_join(guild):
+    set_prefix = {"Server Name": guild.name, "id": guild.id, "Prefix": "$"}
     Server_prefix.insert_one(set_prefix)
+    set_reply = {"id": guild.id,
+    "hi": "Hey there, How are you?",
+    "hello": "Hi, What you doin'?",
+    "hey": "Hello, How can I help?",
+    "bye": "Byee, See you again!",
+    "status": False
+    }
+    replies.insert_one(set_reply)
+
 
 @client.event
 async def on_guild_remove(guild):
-    del_entry = {
-    "id": guild.id
-    }
+    del_entry = {"id": guild.id}
     Server_prefix.delete_one(del_entry)
+    replies.delete_one(del_entry)
+    
+@client.command()
+async def replysetup(ctx):
+    if issuper(ctx.author.id):
+        rep = replies.find_one({"id": ctx.guild.id})
+        if rep == None:
+            set_reply = {"id": ctx.guild.id,
+            "hi": "Hey there, How are you?",
+            "hello": "Hi, What you doin'?",
+            "hey": "Hello, How can I help?",
+            "bye": "Byee, See you again!",
+            "status": False
+            }
+            replies.insert_one(set_reply)
+            embed = discord.Embed(title="Auto-Replies added!", color=0xaa66ea)
+            await ctx.reply(embed=embed)
+        else:
+            embed = discord.Embed(title="Everything is alright!", color=0xaa66ea)
+            await ctx.reply(embed=embed)
+    else:
+        embed = discord.Embed(title="You are not authorised to use that command!", color=0xaa66ea)
+        await ctx.reply(embed=embed)
+
+@client.command()
+async def autoreply(ctx):
+    if issuper(ctx.author.id):
+        Status = replies.find_one({'id':ctx.guild.id})
+        if Status['status'] == False:
+            query = {"id": ctx.guild.id}
+            newstatus = {"$set": {"status": True}}
+            replies.update_one(query, newstatus)
+            embed = discord.Embed(title="Auto-Replies Enabled!", color=0xaa66ea)
+            await ctx.reply(embed=embed)
+
+        else:
+            query = {"id": ctx.guild.id}
+            newstatus = {"$set": {"status": False}}
+            replies.update_one(query, newstatus)
+            embed = discord.Embed(title="Auto-Replies Disabled!", color=0xaa66ea)
+            await ctx.reply(embed=embed)
+
+    else:
+        embed = discord.Embed(title="You are not authorised to use that command!", color=0xaa66ea)
+        await ctx.reply(embed=embed)
+ 
+@client.command()
+async def cr(ctx,alias=None,*,text=None):
+    if issuper(ctx.author.id):
+        if alias == None or text == None:
+            embed = discord.Embed(title="Invalid Syntax!", color=0xaa66ea)
+            await ctx.reply(embed=embed)
+        else:      
+            rep = replies.find_one({"id": ctx.guild.id})
+            if rep != None:
+                if alias == 'hi':
+                    query = {"id": ctx.guild.id}
+                    new_reply = {"$set": {"hi": text}}
+                    replies.update_one(query, new_reply)
+                    await ctx.reply(f"**New reply:** {text}")   
+                
+                elif alias == 'hello':
+                    query = {"id": ctx.guild.id}
+                    new_reply = {"$set": {"hello": text}}
+                    replies.update_one(query, new_reply)
+                    await ctx.reply(f"**New reply:** {text}")
+
+                elif alias == 'hey':
+                    query = {"id": ctx.guild.id}
+                    new_reply = {"$set": {"hey": text}}
+                    replies.update_one(query, new_reply)
+                    await ctx.reply(f"**New reply:** {text}")
+
+                elif alias == 'bye':
+                    query = {"id": ctx.guild.id}
+                    new_reply = {"$set": {"bye": text}}
+                    replies.update_one(query, new_reply)
+                    await ctx.reply(f"**New reply:** {text}")
+
+                else:
+                    embed = discord.Embed(title="Alias must be [hi,hello,hey,bye]", color=0xaa66ea)
+                    await ctx.reply(embed=embed)
+
+            else:
+                embed = discord.Embed(title="First you've to use replysetup command!", color=0xaa66ea)
+                await ctx.reply(embed=embed)
 
 @client.command(brief='For changing the prefix')
 async def prefix(ctx, prefix="$"):
