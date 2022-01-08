@@ -79,13 +79,13 @@ async def on_message(message):
             if message.content.lower().startswith("hi") and message.author.id != s_admin:
                 rep = get_reply(message.guild.id,'hi')
                 await message.reply(rep)
-            elif message.content.lower().startswith("hey") message.author.id != s_admin:
+            elif message.content.lower().startswith("hey") and message.author.id != s_admin:
                 rep = get_reply(message.guild.id,'hey')
                 await message.reply(rep)
-            elif message.content.lower().startswith("hello") message.author.id != s_admin:
+            elif message.content.lower().startswith("hello") and message.author.id != s_admin:
                 rep = get_reply(message.guild.id,'hello')
                 await message.reply(rep)
-            elif message.content.lower().startswith("bye") message.author.id != s_admin:
+            elif message.content.lower().startswith("bye") and message.author.id != s_admin:
                 rep = get_reply(message.guild.id,'bye')
                 await message.reply(rep)
         else:
