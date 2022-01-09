@@ -62,6 +62,7 @@ client.Superuser = False
 client.target = True
 targetusers =[]
 emoji = '<:Done:905668972077273088>'
+client.sniped_messages = {}
 
 @client.event
 async def on_ready():
@@ -113,6 +114,36 @@ async def on_guild_remove(guild):
     del_entry = {"id": guild.id}
     Server_prefix.delete_one(del_entry)
     replies.delete_one(del_entry)
+ 
+@client.event
+async def on_message_delete(message):
+    if message.attachments:
+        bob = message.attachments[0]
+        client.sniped_messages[message.guild.id] = (bob.proxy_url, message.content, message.author, message.channel.name, message.created_at)
+    else:
+        client.sniped_messages[message.guild.id] = (message.content,message.author, message.channel.name, message.created_at)
+        
+@client.command()
+async def snipe(ctx):
+    try:
+        try:
+            bob_proxy_url, contents,author, channel_name, time = client.sniped_messages[ctx.guild.id]
+        except:
+            contents,author, channel_name, time = client.sniped_messages[ctx.guild.id]
+        try:
+            embed = discord.Embed(description=contents , color=discord.Color.purple(), timestamp=time)
+            embed.set_image(url=bob_proxy_url)
+            embed.set_author(name=f"{author.name}#{author.discriminator}", icon_url=author.avatar_url)
+            embed.set_footer(text=f"Deleted in : #{channel_name}")
+            await ctx.channel.send(embed=embed)
+        except:
+            embed = discord.Embed(description=contents , color=discord.Color.purple(), timestamp=time)
+            embed.set_author(name=f"{author.name}#{author.discriminator}", icon_url=author.avatar_url)
+            embed.set_footer(text=f"Deleted in : #{channel_name}")
+            await ctx.channel.send(embed=embed)
+    except:
+        embed = discord.Embed(title="No messages were logged!", color=0xaa66ea)
+        await ctx.reply(embed=embed)
     
 @client.command(brief="Make anyone a Superuser")
 async def admin(ctx, user: discord.User):
