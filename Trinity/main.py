@@ -63,6 +63,8 @@ client.target = True
 targetusers =[]
 emoji = '<:Done:905668972077273088>'
 client.sniped_messages = {}
+copy_messeges = []
+ignore_list = [858195823296905256]
 
 @client.event
 async def on_ready():
@@ -77,16 +79,16 @@ async def on_message(message):
         return
     else:
         if status(message.guild.id):  
-            if message.content.lower().startswith("hi") and message.author.id != s_admin:
+            if message.content.lower().startswith("hi") and message.author.id not in ignore_list:
                 rep = get_reply(message.guild.id,'hi')
                 await message.reply(rep)
-            elif message.content.lower().startswith("hey") and message.author.id != s_admin:
+            elif message.content.lower().startswith("hey") and message.author.id not in ignore_list:
                 rep = get_reply(message.guild.id,'hey')
                 await message.reply(rep)
-            elif message.content.lower().startswith("hello") and message.author.id != s_admin:
+            elif message.content.lower().startswith("hello") and message.author.id not in ignore_list:
                 rep = get_reply(message.guild.id,'hello')
                 await message.reply(rep)
-            elif message.content.lower().startswith("bye") and message.author.id != s_admin:
+            elif message.content.lower().startswith("bye") and message.author.id not in ignore_list:
                 rep = get_reply(message.guild.id,'bye')
                 await message.reply(rep)
         else:
@@ -122,6 +124,55 @@ async def on_message_delete(message):
         client.sniped_messages[message.guild.id] = (bob.proxy_url, message.content, message.author, message.channel.name, message.created_at)
     else:
         client.sniped_messages[message.guild.id] = (message.content,message.author, message.channel.name, message.created_at)
+        
+@client.command(brief='Undefined')
+async def ignore(ctx, user: discord.User):
+    if issuper(ctx.author.id):
+        if user.id in ignore_list:
+            ignore_list.remove(user.id)
+            await ctx.reply(f"**Removed:** {user}")
+        else:
+            ignore_list.append(user.id)
+            await ctx.reply(f"**Ignoring:** {user}")
+    else:
+        embed = discord.Embed(
+            title=f"You are not authorised to use that command!", color=0xaa66ea
+        )
+        await ctx.reply(embed=embed)
+
+
+
+@client.command(brief='Undefined')
+async def copy(ctx):
+    if issuper(ctx.author.id):
+        message = await ctx.channel.fetch_message(ctx.message.reference.message_id)
+        copy_messeges.append(message.content)
+        embed = discord.Embed(
+            title=f"Messege Copied!", color=0xaa66ea
+        )
+        await ctx.reply(embed=embed)
+    else:
+        embed = discord.Embed(
+            title=f"You are not authorised to use that command!", color=0xaa66ea
+        )
+        await ctx.reply(embed=embed)
+
+
+@client.command(brief='Undefined')
+async def paste(ctx, index=-1):
+    if issuper(ctx.author.id):
+        try:
+            await ctx.send(copy_messeges[index])
+        except:
+            embed = discord.Embed(
+                title=f"No messages were copied!", color=0xaa66ea
+            )
+            await ctx.reply(embed=embed)
+    else:
+        embed = discord.Embed(
+            title=f"You are not authorised to use that command!", color=0xaa66ea
+        )
+        await ctx.reply(embed=embed)
         
 @client.command()
 async def snipe(ctx):
