@@ -480,7 +480,7 @@ async def spam(ctx, a:int,*,cont):
 
 @client.command(brief='Says your message')
 async def say(ctx,*, content):
-    if issuper(ctx.author.id)
+    if issuper(ctx.author.id):
         await ctx.message.delete()
         await ctx.send(f"{content}")
     else:
