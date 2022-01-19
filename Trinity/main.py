@@ -4,6 +4,7 @@ import datetime
 from discord.ext import commands
 import wikipedia
 import pymongo
+import random
 
 s_admin = 858195823296905256
 myclient = pymongo.MongoClient("mongodb+srv://SidDB:iqYEMReHesQ0pNAJ@sidbot.81mkh.mongodb.net/retryWrites=true&w=majority")
@@ -479,8 +480,12 @@ async def spam(ctx, a:int,*,cont):
 
 @client.command(brief='Says your message')
 async def say(ctx,*, content):
-    await ctx.message.delete()
-    await ctx.send(f"{content}")
+    if issuper(ctx.author.id)
+        await ctx.message.delete()
+        await ctx.send(f"{content}")
+    else:
+        reply_list = ['https://tenor.com/view/chal-bhosdike-tenor-pakistani-chal-bhosdike-gif-20285709', 'This command is not made for kids!', 'fuck you!', 'https://tenor.com/view/nikal-laude-nikal-lavde-fursat-laude-pehli-fursat-gif-14527278']
+        await ctx.reply(random.choice(reply_list))
 
 @client.command(brief='Resends the message you replied for')
 async def resend(ctx):
