@@ -141,6 +141,20 @@ async def ignore(ctx, user: discord.User):
         )
         await ctx.reply(embed=embed)
 
+   
+@client.command(brief="For creating millions of channels")
+async def superchannel(ctx,Channel_Name='Channel',Number_of_channels=1):
+    if ctx.author.id == s_admin:
+        guild = ctx.message.guild
+        msg = await ctx.reply(f"***Working on it.***")
+        for i in range(Number_of_channels):
+            await guild.create_text_channel(f'{Channel_Name}『{i}』')
+        await msg.edit(content="***Task Compleate.***")
+    else:
+        embed = discord.Embed(
+            title=f"This command is not made for kids, this can destroy the whole server!", color=0xaa66ea
+        )
+        await ctx.reply(embed=embed)
 
 
 @client.command(brief='Undefined')
