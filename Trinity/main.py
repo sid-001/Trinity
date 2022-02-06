@@ -644,7 +644,7 @@ async def toggle(ctx, command=None):
     else:
         await ctx.reply("Use `Master Controls` to execute this command.")
         
-@client.command((brief='Changes bot status')
+@client.command((brief='Changes bot status to dnd')
 async def dnd(ctx):
     if client.Superuser:
         await client.change_presence(status=discord.Status.dnd)
@@ -653,7 +653,7 @@ async def dnd(ctx):
         embed=discord.Embed(title="Use Superuser to execute this command.", color=0xaa66ea)
         await ctx.reply(embed=embed)
 
-@client.command(brief='Changes bot status')
+@client.command(brief='Changes bot status to idle')
 async def idle(ctx):
     if client.Superuser:
         await client.change_presence(status=discord.Status.idle)
