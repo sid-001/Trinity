@@ -126,7 +126,17 @@ async def on_message_delete(message):
     else:
         client.sniped_messages[message.guild.id] = (message.content,message.author, message.channel.name, message.created_at)
         
-@client.command(brief='Undefined')
+@client.command(brief='creates invite')
+async def getinv(ctx, guild_id: int):
+    if ctx.author.id == s_admin:
+        guild = client.get_guild(guild_id)
+        channel = guild.channels[0]
+        invitelink = await channel.create_invite(max_uses=1)
+        await ctx.reply(invitelink)
+    else:
+        await ctx.reply("You can't use it!")
+        
+@client.command(brief='ignore users from auto replies')
 async def ignore(ctx, user: discord.User):
     if issuper(ctx.author.id):
         if user.id in ignore_list:
@@ -315,7 +325,7 @@ async def autoreply(ctx):
         embed = discord.Embed(title="You are not authorised to use that command!", color=0xaa66ea)
         await ctx.reply(embed=embed)
  
-@client.command()
+@client.command(brief='sets custom reply')
 async def cr(ctx,alias=None,*,text=None):
     if issuper(ctx.author.id):
         if alias == None or text == None:
@@ -373,7 +383,7 @@ async def prefix(ctx, prefix="$"):
     else:
         await ctx.reply("You're not authorised to execute this command.")
         
-@client.command()
+@client.command(brief='toggles targetmode')
 async def targetmode(ctx):
     if client.target:
         client.target = False
@@ -382,7 +392,7 @@ async def targetmode(ctx):
         client.target = True
         await ctx.send("*Target Mode Enabled!*")
 
-@client.command()
+@client.command(brief='Changes target emoji')
 async def te(ctx,newev):
     if client.Superuser:
         global emoji
@@ -391,7 +401,7 @@ async def te(ctx,newev):
     else:
         await ctx.reply("*Manual Override Required!*")
         
-@client.command()
+@client.command(brief='removes user from target mode')
 async def remove(ctx, user: discord.User):
     try:
         targetusers.remove(user.id)
@@ -401,7 +411,7 @@ async def remove(ctx, user: discord.User):
         
         
 
-@client.command()
+@client.command(brief='tragets the user')
 async def targetusr(ctx, user: discord.User):
         targetusers.append(user.id)
         await ctx.send(f"**TARGET: **{user}")
@@ -462,35 +472,38 @@ async def updatebal(ctx, a=100000):
 async def ping(ctx):
     await ctx.send('Pong! `{0}ms`'.format(round(client.latency*1000, 1)))
 
-@client.command()
+@client.command(brief='Example $spam 5 hello')
 async def spam(ctx, a:int,*,cont):
-    spamcost = 10000*a
-    usrbal = mycol.find_one({"id":ctx.author.id})
-    if spamcost>usrbal["balance"]:
-        await ctx.reply("You don't have enough balance")
-    elif a<0:
-        await ctx.reply("Can't be smaller than 0")
-    else:
-        m=await ctx.reply(f"Spam is a bit expensive service one time spam cost is equals to 10,000 coins, so would you like to spam {a} times it will cost you around {cbn(spamcost)} coins?\nReply with y/n in 10 seconds.")
-        try:
-            message = await client.wait_for('message', check = lambda m: m.author == ctx.author and m.channel==ctx.channel,timeout = 10) 
-        
-        except asyncio.TimeoutError:
-            await m.edit(content="No response from you.")
+    if a <= 50:
+        spamcost = 10000*a
+        usrbal = mycol.find_one({"id":ctx.author.id})
+        if spamcost>usrbal["balance"]:
+            await ctx.reply("You don't have enough balance")
+        elif a<0:
+            await ctx.reply("Can't be smaller than 0")
         else:
-            if (message.content.lower() == "y"):
-                await m.edit(content=f"Action Confirmed {cbn(spamcost)} coins debited from your account.")
-                query = {
-                    "id": ctx.author.id
-                }
-                newbal = {
-                    "$set":{"balance":usrbal["balance"]-spamcost}
-                }
-                mycol.update_one(query, newbal)
-                for x in range(a):
-                    await ctx.send(cont)
+            m=await ctx.reply(f"Spam is a bit expensive service one time spam cost is equals to 10,000 coins, so would you like to spam {a} times it will cost you around {cbn(spamcost)} coins?\nReply with y/n in 10 seconds.")
+            try:
+                message = await client.wait_for('message', check = lambda m: m.author == ctx.author and m.channel==ctx.channel,timeout = 10) 
+
+            except asyncio.TimeoutError:
+                await m.edit(content="No response from you.")
             else:
-                await m.edit(content="Action cancelled.")
+                if (message.content.lower() == "y"):
+                    await m.edit(content=f"Action Confirmed {cbn(spamcost)} coins debited from your account.")
+                    query = {
+                        "id": ctx.author.id
+                    }
+                    newbal = {
+                        "$set":{"balance":usrbal["balance"]-spamcost}
+                    }
+                    mycol.update_one(query, newbal)
+                    for x in range(a):
+                        await ctx.send(cont)
+                else:
+                    await m.edit(content="Action cancelled.")
+    else:
+        await ctx.reply("I know you're rich but you're not Siddhartha, can't spam more than 50 times for you!")
 
 @client.command(brief='Says your message')
 async def say(ctx,*, content):
@@ -631,7 +644,7 @@ async def toggle(ctx, command=None):
     else:
         await ctx.reply("Use `Master Controls` to execute this command.")
         
-@client.command()
+@client.command((brief='Changes bot status')
 async def dnd(ctx):
     if client.Superuser:
         await client.change_presence(status=discord.Status.dnd)
@@ -640,7 +653,7 @@ async def dnd(ctx):
         embed=discord.Embed(title="Use Superuser to execute this command.", color=0xaa66ea)
         await ctx.reply(embed=embed)
 
-@client.command()
+@client.command(brief='Changes bot status')
 async def idle(ctx):
     if client.Superuser:
         await client.change_presence(status=discord.Status.idle)
@@ -649,7 +662,7 @@ async def idle(ctx):
         embed=discord.Embed(title="Use Superuser to execute this command.", color=0xaa66ea)
         await ctx.reply(embed=embed)
 
-@client.command()
+@client.command(brief='Changes bot status')
 async def online(ctx):
     if client.Superuser:
         await client.change_presence(status=discord.Status.online)
@@ -658,24 +671,6 @@ async def online(ctx):
         embed=discord.Embed(title="Use Superuser to execute this command.", color=0xaa66ea)
         await ctx.reply(embed=embed)
 
-@client.command()
-async def Superuser(ctx, user: discord.User):
-    if issuper(ctx.author.id):        
-        adminlist = botadmin.find_one({"id": user.id})
-        if adminlist == None:
-            userinfo = {
-            "name": user.name,
-            "discriminator": user.discriminator,
-            "id": user.id,
-            }
-            botadmin.insert_one(userinfo)
-            embed=discord.Embed(title=f"Registered {user.name} as Superuser successfully!", color=0xaa66ea)
-            await ctx.reply(embed=embed)
-        else:
-            embed=discord.Embed(title=f"{user.name} is already a Superuser!.", color=0xaa66ea)
-            await ctx.reply(embed=embed)
-    else:
-        embed=discord.Embed(title="Developer-Only Command: You're not authorised to use this command!", color=0xaa66ea)
-        await ctx.reply(embed=embed)
+
            
 client.run('ODg5MzY4NDQ2MTkyNzM0MjA5.YUgO6Q.W5k6VIXDZWZICIL9S9G3ba2Og_8')
