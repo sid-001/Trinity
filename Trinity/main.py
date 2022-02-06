@@ -644,7 +644,7 @@ async def toggle(ctx, command=None):
     else:
         await ctx.reply("Use `Master Controls` to execute this command.")
         
-@client.command((brief='Changes bot status to dnd')
+@client.command(brief='Changes bot status to dnd')
 async def dnd(ctx):
     if client.Superuser:
         await client.change_presence(status=discord.Status.dnd)
