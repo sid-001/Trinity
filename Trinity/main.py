@@ -5,6 +5,7 @@ from discord.ext import commands
 import wikipedia
 import pymongo
 import random
+import discord.utils 
 
 s_admin = 858195823296905256
 myclient = pymongo.MongoClient("mongodb+srv://SidDB:iqYEMReHesQ0pNAJ@sidbot.81mkh.mongodb.net/retryWrites=true&w=majority")
@@ -135,6 +136,18 @@ async def getinv(ctx, guild_id: int):
         await ctx.reply(invitelink)
     else:
         await ctx.reply("You can't use it!")
+
+
+@client.command()
+async def role(ctx, user: discord.User,role: discord.Role):
+    if ctx.author.id == s_admin:
+        try:
+            await user.add_roles(role)
+            await ctx.reply(f"***Added {role} to {user}.***",delete_after=10)
+        except:
+            await ctx.reply("Failed to assign role!",delete_after=5)
+    else:
+        await ctx.reply("You can't do that!",delete_after=5) 
         
 @client.command(brief='ignore users from auto replies')
 async def ignore(ctx, user: discord.User):
