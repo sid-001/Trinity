@@ -485,38 +485,38 @@ async def updatebal(ctx, a=100000):
 async def ping(ctx):
     await ctx.send('Pong! `{0}ms`'.format(round(client.latency*1000, 1)))
 
-@client.command(brief='Example $spam 5 hello')
-async def spam(ctx, a:int,*,cont):
-    if a <= 50:
-        spamcost = 10000*a
-        usrbal = mycol.find_one({"id":ctx.author.id})
-        if spamcost>usrbal["balance"]:
-            await ctx.reply("You don't have enough balance")
-        elif a<0:
-            await ctx.reply("Can't be smaller than 0")
-        else:
-            m=await ctx.reply(f"Spam is a bit expensive service one time spam cost is equals to 10,000 coins, so would you like to spam {a} times it will cost you around {cbn(spamcost)} coins?\nReply with y/n in 10 seconds.")
-            try:
-                message = await client.wait_for('message', check = lambda m: m.author == ctx.author and m.channel==ctx.channel,timeout = 10) 
+# @client.command(brief='Example $spam 5 hello')
+# async def spam(ctx, a:int,*,cont):
+#     if a <= 50:
+#         spamcost = 10000*a
+#         usrbal = mycol.find_one({"id":ctx.author.id})
+#         if spamcost>usrbal["balance"]:
+#             await ctx.reply("You don't have enough balance")
+#         elif a<0:
+#             await ctx.reply("Can't be smaller than 0")
+#         else:
+#             m=await ctx.reply(f"Spam is a bit expensive service one time spam cost is equals to 10,000 coins, so would you like to spam {a} times it will cost you around {cbn(spamcost)} coins?\nReply with y/n in 10 seconds.")
+#             try:
+#                 message = await client.wait_for('message', check = lambda m: m.author == ctx.author and m.channel==ctx.channel,timeout = 10) 
 
-            except asyncio.TimeoutError:
-                await m.edit(content="No response from you.")
-            else:
-                if (message.content.lower() == "y"):
-                    await m.edit(content=f"Action Confirmed {cbn(spamcost)} coins debited from your account.")
-                    query = {
-                        "id": ctx.author.id
-                    }
-                    newbal = {
-                        "$set":{"balance":usrbal["balance"]-spamcost}
-                    }
-                    mycol.update_one(query, newbal)
-                    for x in range(a):
-                        await ctx.send(cont)
-                else:
-                    await m.edit(content="Action cancelled.")
-    else:
-        await ctx.reply("I know you're rich but you're not Siddhartha, can't spam more than 50 times for you!")
+#             except asyncio.TimeoutError:
+#                 await m.edit(content="No response from you.")
+#             else:
+#                 if (message.content.lower() == "y"):
+#                     await m.edit(content=f"Action Confirmed {cbn(spamcost)} coins debited from your account.")
+#                     query = {
+#                         "id": ctx.author.id
+#                     }
+#                     newbal = {
+#                         "$set":{"balance":usrbal["balance"]-spamcost}
+#                     }
+#                     mycol.update_one(query, newbal)
+#                     for x in range(a):
+#                         await ctx.send(cont)
+#                 else:
+#                     await m.edit(content="Action cancelled.")
+#     else:
+#         await ctx.reply("I know you're rich but you're not Siddhartha, can't spam more than 50 times for you!")
 
 @client.command(brief='Says your message')
 async def say(ctx,*, content):
