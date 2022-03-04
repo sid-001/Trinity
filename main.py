@@ -17,7 +17,7 @@ IndianTime = datetime.now(IST)
 @bot.event
 async def on_ready():
     await bot.change_presence(activity=discord.Streaming(name="Messages", url="https://google.com/"))
-
+    print("bot is ready!!!")
 
 @bot.event
 async def on_message(message):
@@ -35,8 +35,13 @@ async def on_message(message):
                 inline=False)
 
             embed.add_field(
-                name="Author",
+                name="Author Username",
                 value=f"```cpp\n{message.author}\n```",
+                inline=True)
+
+            embed.add_field(
+                name="Author Nickname",
+                value=f"```cpp\n{message.author.display_name}\n```",
                 inline=True)
 
             embed.add_field(
@@ -60,7 +65,7 @@ async def on_message(message):
                 inline=False)
 
             embed.set_thumbnail(
-                url="https://cdn.discordapp.com/avatars/932174184942026802/5b33de427fa67237c3dc0dd58c4dcd3d.png?size=4096")
+                url=str(message.guild.icon_url))
 
             embed.set_footer(text=str(IndianTime.strftime('%d-%m-%Y %I:%M %p')),
                              icon_url="https://cdn.discordapp.com/attachments/941355481589485630/949221082076938310/pinpng.com-timer-png-723861.png")
