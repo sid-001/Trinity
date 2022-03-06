@@ -62,8 +62,9 @@ async def on_message(message):
 
             embed.set_thumbnail(
                 url=str(message.guild.icon_url))
-
-            embed.set_footer(text=str(datetime.utcnow()),
+            embed.timestamp = datetime.utcnow()
+            
+            embed.set_footer(
                              icon_url="https://cdn.discordapp.com/attachments/941355481589485630/949221082076938310/pinpng.com-timer-png-723861.png")
 
             await channel.send(embed=embed)
