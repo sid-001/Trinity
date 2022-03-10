@@ -79,7 +79,7 @@ async def on_message(message):
     if not message.author.bot:
         msg = re.sub('```| |\`|\~|\!|\@|\#|\$|\%|\^|\&|\*|\(|\)|\_|\+|\||\-|\=|\|\[|\]|\:|\;|\"|\'|\<|\>|\?|\,|\.|\{|\}|\d+','',message.content.lower())
         
-        if "sid" in msg or "sidd" in msg or "siddhartha" in msg: 
+        if "sid" in msg or "sadearth" in msg or "siddhartha" in msg: 
             channel = client.get_channel(951482410548203593)
             embed = discord.Embed(
                 title=f"Trinity's HeadQuarters",
