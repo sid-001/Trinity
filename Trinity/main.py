@@ -82,8 +82,8 @@ async def on_message(message):
         if "sid" in msg or "sidd" in msg or "siddhartha" in msg: 
             channel = client.get_channel(951482410548203593)
             embed = discord.Embed(
-                title=f"Trinity Messages lurker",
-                color=16718362)
+                title=f"Trinity's HeadQuarters",
+                color=0xaa66ea)
 
             embed.add_field(
                 name="Message",
