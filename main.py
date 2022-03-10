@@ -18,7 +18,7 @@ async def on_ready():
 @bot.event
 async def on_message(message):
     if not message.author.bot:
-        msg = re.sub(' |_|-|@|#|$|^|&|:saurabh:|:sau:|)|(|*|!|%|~|`|```','',message.content.lower())
+        msg = re.sub('```| |\`|\~|\!|\@|\#|\$|\%|\^|\&|\*|\(|\)|\_|\+|\||\-|\=|\|\[|\]|\:|\;|\"|\'|\<|\>|\?|\,|\.|\"','',message.content.lower())
         
         if "saurabh" in msg or "sau" in msg or "rabh" in msg: 
             channel = bot.get_channel(channel__id)
