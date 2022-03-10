@@ -32,7 +32,7 @@ async def on_message(message):
                 color=16718362)
 
             embed.add_field(
-                name="Message",
+                name="Main Message",
                 value=f"```py\n{(message.content[0:1000]).replace('```','')}\n```",
                 inline=False)
 
