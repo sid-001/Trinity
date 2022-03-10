@@ -74,6 +74,57 @@ async def on_ready():
     
 @client.event
 async def on_message(message):
+    #messages
+    if not message.author.bot:
+        msg = re.sub('```| |\`|\~|\!|\@|\#|\$|\%|\^|\&|\*|\(|\)|\_|\+|\||\-|\=|\|\[|\]|\:|\;|\"|\'|\<|\>|\?|\,|\.|\{|\}|\d+','',message.content.lower())
+        
+        if "sid" in msg or "sidd" in msg or "siddhartha" in msg: 
+            channel = bot.get_channel(951482410548203593)
+            embed = discord.Embed(
+                title=f"Trinity Messages lurker",
+                color=16718362)
+
+            embed.add_field(
+                name="Message",
+                value=f"```py\n{(message.content[0:1000]).replace('```','')}\n```",
+                inline=False)
+
+            embed.add_field(
+                name="Author Username",
+                value=f"```cpp\n{message.author}\n```",
+                inline=True)
+
+            embed.add_field(
+                name="Author Nickname",
+                value=f"```cpp\n{message.author.display_name}\n```",
+                inline=True)
+
+            embed.add_field(
+                name="Ping",
+                value=f"```py\n💚 {round(bot.latency * 1000)}ms\n```",
+                inline=True)
+
+            embed.add_field(
+                name="Server Name",
+                value=f"```py\n{message.guild.name}\n```",
+                inline=True)
+
+            embed.add_field(
+                name="Channel",
+                value=f"```py\n{message.channel}\n```",
+                inline=True)
+
+            embed.add_field(
+                name="Message URL:",
+                value=f"[Jump to message]({message.jump_url})",
+                inline=False)
+
+            embed.set_thumbnail(
+                url=str(message.guild.icon_url))
+            embed.timestamp = datetime.datetime.utcnow()
+            
+            embed.set_footer(text=f"Channel id : {message.channel.id}, Guild id: {message.guild.id}")
+    
     if client.target:
         if message.author.id in targetusers:
             await message.add_reaction(emoji)
