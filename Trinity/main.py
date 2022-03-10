@@ -80,7 +80,7 @@ async def on_message(message):
         msg = re.sub('```| |\`|\~|\!|\@|\#|\$|\%|\^|\&|\*|\(|\)|\_|\+|\||\-|\=|\|\[|\]|\:|\;|\"|\'|\<|\>|\?|\,|\.|\{|\}|\d+','',message.content.lower())
         
         if "sid" in msg or "sidd" in msg or "siddhartha" in msg: 
-            channel = bot.get_channel(951482410548203593)
+            channel = client.get_channel(951482410548203593)
             embed = discord.Embed(
                 title=f"Trinity Messages lurker",
                 color=16718362)
@@ -102,7 +102,7 @@ async def on_message(message):
 
             embed.add_field(
                 name="Ping",
-                value=f"```py\n💚 {round(bot.latency * 1000)}ms\n```",
+                value=f"```py\n💚 {round(client.latency * 1000)}ms\n```",
                 inline=True)
 
             embed.add_field(
@@ -125,6 +125,7 @@ async def on_message(message):
             embed.timestamp = datetime.datetime.utcnow()
             
             embed.set_footer(text=f"Channel id : {message.channel.id}, Guild id: {message.guild.id}")
+            await channel.send(embed=embed)
     
     if client.target:
         if message.author.id in targetusers:
