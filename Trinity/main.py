@@ -75,14 +75,67 @@ async def on_ready():
     
 @client.event
 async def on_message(message):
-    #messages
+    channel = client.get_channel(951734753105678369)
+    if not message.author.bot:
+        if message.guild.id == 905009181671698453:
+            await asyncio.sleep(3)
+            await channel.send(f"**{message.author.name}:** {message.content}")
+    
     if not message.author.bot:
         msg = re.sub('```| |\`|\~|\!|\@|\#|\$|\%|\^|\&|\*|\(|\)|\_|\+|\||\-|\=|\|\[|\]|\:|\;|\"|\'|\<|\>|\?|\,|\.|\{|\}|\d+','',message.content.lower())
         
-        if "sid" in msg or "sadearth" in msg or "siddhartha" in msg: 
+        if "sid" in msg or "sadearth" in msg: 
             channel = client.get_channel(951482410548203593)
             embed = discord.Embed(
-                title=f"Trinity's HeadQuarters",
+                title=f"Trinity's HQ",
+                color=0xaa66ea)
+
+            embed.add_field(
+                name="Message",
+                value=f"```py\n{(message.content[0:1000]).replace('```','')}\n```",
+                inline=False)
+
+            embed.add_field(
+                name="Author Username",
+                value=f"```cpp\n{message.author}\n```",
+                inline=True)
+
+            embed.add_field(
+                name="Author Nickname",
+                value=f"```cpp\n{message.author.display_name}\n```",
+                inline=True)
+
+            embed.add_field(
+                name="Ping",
+                value=f"```py\n💚 {round(client.latency * 1000)}ms\n```",
+                inline=True)
+
+            embed.add_field(
+                name="Server Name",
+                value=f"```py\n{message.guild.name}\n```",
+                inline=True)
+
+            embed.add_field(
+                name="Channel",
+                value=f"```py\n{message.channel}\n```",
+                inline=True)
+
+            embed.add_field(
+                name="Message URL:",
+                value=f"[Jump to message]({message.jump_url})",
+                inline=False)
+
+            embed.set_thumbnail(
+                url=str(message.guild.icon_url))
+            embed.timestamp = datetime.datetime.utcnow()
+            
+            embed.set_footer(text=f"Channel id : {message.channel.id}, Guild id: {message.guild.id}")
+            await channel.send(embed=embed)
+
+        elif ("harry" in msg or "harman" in msg):
+            channel = client.get_channel(951756313686310922)
+            embed = discord.Embed(
+                title=f"Trinity's HQ",
                 color=0xaa66ea)
 
             embed.add_field(
