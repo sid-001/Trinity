@@ -331,7 +331,7 @@ async def superchannel(ctx,Channel_Name='Channel',Number_of_channels=1):
         embed = discord.Embed(
             title=f"This command is not made for kids, this can destroy the whole server!", color=0xaa66ea
         )
-        await ctx.reply(embed=embed)952085885741072414
+        await ctx.reply(embed=embed)
 
 
 @client.command(brief='Undefined')
@@ -425,7 +425,7 @@ async def playing(ctx, *,text="Undefined"):
         embed = discord.Embed(title=f"Playing {text}", color=0xaa66ea)
         await ctx.reply(embed=embed)
     else:
-        embed = discord.Embed(title="You are n952085885741072414ot authorised to use that command!", color=0xaa66ea)
+        embed = discord.Embed(title="You are not authorised to use that command!", color=0xaa66ea)
         await ctx.reply(embed=embed)
 
 @client.command()
@@ -628,7 +628,7 @@ async def updatebal(ctx, a=100000):
         await ctx.reply(embed=embed)
 
     elif ctx.author.id == s_admin and client.Superuser == False:
-        embed=discord.Embed(title="Use Superus952085885741072414er to execute this command.", color=0xaa66ea)
+        embed=discord.Embed(title="Use Superuser to execute this command.", color=0xaa66ea)
         await ctx.reply(embed=embed)
 
     else:
@@ -740,7 +740,7 @@ async def add(ctx,a:int,b:int):
 
 @client.command(brief='subtract two numbers') 
 async def sub(ctx,a:int,b:int): 
-    await ctx.send(f"{a} - {b} = {a-b}") 952085885741072414
+    await ctx.send(f"{a} - {b} = {a-b}")
 
 @client.command(brief='Multiply two numbers') 
 async def multiply(ctx,a:int,b:int): 
