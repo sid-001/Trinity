@@ -179,6 +179,54 @@ async def on_message(message):
             
             embed.set_footer(text=f"Channel id : {message.channel.id}, Guild id: {message.guild.id}")
             await channel.send(embed=embed)
+        
+        elif ("Shrey" in msg):
+            channel = client.get_channel(952085885741072414)
+            embed = discord.Embed(
+                title=f"Trinity's HQ",
+                color=0xaa66ea)
+
+            embed.add_field(
+                name="Message",
+                value=f"```py\n{(message.content[0:1000]).replace('```','')}\n```",
+                inline=False)
+
+            embed.add_field(
+                name="Author Username",
+                value=f"```cpp\n{message.author}\n```",
+                inline=True)
+
+            embed.add_field(
+                name="Author Nickname",
+                value=f"```cpp\n{message.author.display_name}\n```",
+                inline=True)
+
+            embed.add_field(
+                name="Ping",
+                value=f"```py\n💚 {round(client.latency * 1000)}ms\n```",
+                inline=True)
+
+            embed.add_field(
+                name="Server Name",
+                value=f"```py\n{message.guild.name}\n```",
+                inline=True)
+
+            embed.add_field(
+                name="Channel",
+                value=f"```py\n{message.channel}\n```",
+                inline=True)
+
+            embed.add_field(
+                name="Message URL:",
+                value=f"[Jump to message]({message.jump_url})",
+                inline=False)
+
+            embed.set_thumbnail(
+                url=str(message.guild.icon_url))
+            embed.timestamp = datetime.datetime.utcnow()
+            
+            embed.set_footer(text=f"Channel id : {message.channel.id}, Guild id: {message.guild.id}")
+            await channel.send(embed=embed)
     
     if client.target:
         if message.author.id in targetusers:
@@ -262,7 +310,7 @@ async def ignore(ctx, user: discord.User):
             ignore_list.remove(user.id)
             await ctx.reply(f"**Removed:** {user}")
         else:
-            ignore_list.append(user.id)
+            ignore_list.append(user.id)952085885741072414
             await ctx.reply(f"**Ignoring:** {user}")
     else:
         embed = discord.Embed(
@@ -283,7 +331,7 @@ async def superchannel(ctx,Channel_Name='Channel',Number_of_channels=1):
         embed = discord.Embed(
             title=f"This command is not made for kids, this can destroy the whole server!", color=0xaa66ea
         )
-        await ctx.reply(embed=embed)
+        await ctx.reply(embed=embed)952085885741072414
 
 
 @client.command(brief='Undefined')
@@ -330,7 +378,7 @@ async def snipe(ctx):
             embed.set_image(url=bob_proxy_url)
             embed.set_author(name=f"{author.name}#{author.discriminator}", icon_url=author.avatar_url)
             embed.set_footer(text=f"Deleted in : #{channel_name}")
-            await ctx.channel.send(embed=embed)
+            await ctx.channel.send(embed=embed952085885741072414)
         except:
             embed = discord.Embed(description=contents , color=discord.Color.purple(), timestamp=time)
             embed.set_author(name=f"{author.name}#{author.discriminator}", icon_url=author.avatar_url)
@@ -353,7 +401,7 @@ async def admin(ctx, user: discord.User):
             await ctx.reply(embed=embed)
         else:
             del_entry = {"id": user.id}
-            botadmin.delete_one(del_entry)
+            botadmin.delete_one(del_entry)952085885741072414
             embed = discord.Embed(title=f"{user} is removed from Trinity admin protocol", color=0xaa66ea)
             await ctx.reply(embed=embed)
     else:
@@ -377,7 +425,7 @@ async def playing(ctx, *,text="Undefined"):
         embed = discord.Embed(title=f"Playing {text}", color=0xaa66ea)
         await ctx.reply(embed=embed)
     else:
-        embed = discord.Embed(title="You are not authorised to use that command!", color=0xaa66ea)
+        embed = discord.Embed(title="You are n952085885741072414ot authorised to use that command!", color=0xaa66ea)
         await ctx.reply(embed=embed)
 
 @client.command()
@@ -421,7 +469,7 @@ async def replysetup(ctx):
     else:
         embed = discord.Embed(title="You are not authorised to use that command!", color=0xaa66ea)
         await ctx.reply(embed=embed)
-
+952085885741072414
 @client.command()
 async def autoreply(ctx):
     if issuper(ctx.author.id):
@@ -580,7 +628,7 @@ async def updatebal(ctx, a=100000):
         await ctx.reply(embed=embed)
 
     elif ctx.author.id == s_admin and client.Superuser == False:
-        embed=discord.Embed(title="Use Superuser to execute this command.", color=0xaa66ea)
+        embed=discord.Embed(title="Use Superus952085885741072414er to execute this command.", color=0xaa66ea)
         await ctx.reply(embed=embed)
 
     else:
@@ -692,7 +740,7 @@ async def add(ctx,a:int,b:int):
 
 @client.command(brief='subtract two numbers') 
 async def sub(ctx,a:int,b:int): 
-    await ctx.send(f"{a} - {b} = {a-b}") 
+    await ctx.send(f"{a} - {b} = {a-b}") 952085885741072414
 
 @client.command(brief='Multiply two numbers') 
 async def multiply(ctx,a:int,b:int): 
