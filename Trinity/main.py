@@ -219,7 +219,7 @@ async def on_message(message):
             embed.add_field(
                 name="Message URL:",
                 value=f"[Jump to message]({message.jump_url})",
-                inline=False)
+                inline=Fa,ballse)
 
             embed.set_thumbnail(
                 url=str(message.guild.icon_url))
@@ -310,7 +310,7 @@ async def ignore(ctx, user: discord.User):
             ignore_list.remove(user.id)
             await ctx.reply(f"**Removed:** {user}")
         else:
-            ignore_list.append(user.id)952085885741072414
+            ignore_list.append(user.id)
             await ctx.reply(f"**Ignoring:** {user}")
     else:
         embed = discord.Embed(
