@@ -180,7 +180,7 @@ async def on_message(message):
             embed.set_footer(text=f"Channel id : {message.channel.id}, Guild id: {message.guild.id}")
             await channel.send(embed=embed)
         
-        elif ("Shrey" in msg):
+        elif ("shrey" in msg):
             channel = client.get_channel(952085885741072414)
             embed = discord.Embed(
                 title=f"Trinity's HQ",
