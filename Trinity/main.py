@@ -378,7 +378,7 @@ async def snipe(ctx):
             embed.set_image(url=bob_proxy_url)
             embed.set_author(name=f"{author.name}#{author.discriminator}", icon_url=author.avatar_url)
             embed.set_footer(text=f"Deleted in : #{channel_name}")
-            await ctx.channel.send(embed=embed952085885741072414)
+            await ctx.channel.send(embed=embed)
         except:
             embed = discord.Embed(description=contents , color=discord.Color.purple(), timestamp=time)
             embed.set_author(name=f"{author.name}#{author.discriminator}", icon_url=author.avatar_url)
@@ -401,7 +401,7 @@ async def admin(ctx, user: discord.User):
             await ctx.reply(embed=embed)
         else:
             del_entry = {"id": user.id}
-            botadmin.delete_one(del_entry)952085885741072414
+            botadmin.delete_one(del_entry)
             embed = discord.Embed(title=f"{user} is removed from Trinity admin protocol", color=0xaa66ea)
             await ctx.reply(embed=embed)
     else:
