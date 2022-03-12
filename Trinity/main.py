@@ -219,7 +219,7 @@ async def on_message(message):
             embed.add_field(
                 name="Message URL:",
                 value=f"[Jump to message]({message.jump_url})",
-                inline=Fa,ballse)
+                inline=False)
 
             embed.set_thumbnail(
                 url=str(message.guild.icon_url))
