@@ -59,7 +59,8 @@ client = commands.Bot(
     command_prefix= (get_prefix),
     )
 
-print(get_prefix)
+print(f"Logged in as: {client.user}")
+guildId = 905009181671698453
 
 client.Superuser = False
 client.target = True
