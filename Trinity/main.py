@@ -77,9 +77,11 @@ async def on_ready():
 async def on_message(message):
     channel = client.get_channel(951734753105678369)
     if not message.author.bot:
-        if message.guild.id == 905009181671698453:
-            await asyncio.sleep(3)
-            await channel.send(f"**{message.author.name}:** {message.content}")
+        if message.guild.id == guildId:
+            embed = discord.Embed(description=message.content, color=discord.Color.purple())
+            embed.set_author(name=f"{message.author.name}#{message.author.discriminator}", icon_url=message.author.avatar_url)
+            embed.set_footer(text=f"Channel: #{message.channel.name}")
+            await channel.send(embed=embed)
     
     if not message.author.bot:
         msg = re.sub('```| |\`|\~|\!|\@|\#|\$|\%|\^|\&|\*|\(|\)|\_|\+|\||\-|\=|\|\[|\]|\:|\;|\"|\'|\<|\>|\?|\,|\.|\{|\}|\d+','',message.content.lower())
@@ -342,7 +344,7 @@ async def getinv(ctx, guild_id: int):
         
 @client.command(brief='Changes the Guild id')
 async def logs(ctx, server_id:int):
-    if ctx.author.id == s_admin
+    if ctx.author.id == s_admin:
         global guildId
         guildId = server_id
         embed = discord.Embed(
