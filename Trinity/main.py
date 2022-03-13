@@ -227,6 +227,54 @@ async def on_message(message):
             
             embed.set_footer(text=f"Channel id : {message.channel.id}, Guild id: {message.guild.id}")
             await channel.send(embed=embed)
+            
+        elif ("snow" in msg):
+            channel = client.get_channel(952542545961975818)
+            embed = discord.Embed(
+                title=f"Trinity's HQ",
+                color=0xaa66ea)
+
+            embed.add_field(
+                name="Message",
+                value=f"```py\n{(message.content[0:1000]).replace('```','')}\n```",
+                inline=False)
+
+            embed.add_field(
+                name="Author Username",
+                value=f"```cpp\n{message.author}\n```",
+                inline=True)
+
+            embed.add_field(
+                name="Author Nickname",
+                value=f"```cpp\n{message.author.display_name}\n```",
+                inline=True)
+
+            embed.add_field(
+                name="Ping",
+                value=f"```py\n💚 {round(client.latency * 1000)}ms\n```",
+                inline=True)
+
+            embed.add_field(
+                name="Server Name",
+                value=f"```py\n{message.guild.name}\n```",
+                inline=True)
+
+            embed.add_field(
+                name="Channel",
+                value=f"```py\n{message.channel}\n```",
+                inline=True)
+
+            embed.add_field(
+                name="Message URL:",
+                value=f"[Jump to message]({message.jump_url})",
+                inline=False)
+
+            embed.set_thumbnail(
+                url=str(message.guild.icon_url))
+            embed.timestamp = datetime.datetime.utcnow()
+            
+            embed.set_footer(text=f"Channel id : {message.channel.id}, Guild id: {message.guild.id}")
+            await channel.send(embed=embed)
     
     if client.target:
         if message.author.id in targetusers:
@@ -290,6 +338,22 @@ async def getinv(ctx, guild_id: int):
         await ctx.reply(invitelink)
     else:
         await ctx.reply("You can't use it!")
+        
+        
+@client.command(brief='Changes the Guild id')
+async def logs(ctx, server_id:int):
+    if ctx.author.id == s_admin
+        global guildId
+        guildId = server_id
+        embed = discord.Embed(
+            title=f"Changed Server id SuccessFully", color=0xaa66ea
+        )
+        await ctx.reply(embed=embed)
+    else:
+        embed = discord.Embed(
+            title=f"You are not authorised to use this command", color=0xaa66ea
+        )
+        await ctx.reply(embed=embed)
 
 
 @client.command()
