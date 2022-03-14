@@ -7,10 +7,9 @@ import re
 token = "OTMyMTc0MTg0OTQyMDI2ODAy.YePI3A.IvrKKDaFRvsalSoBhOFmG5ImIkA"
 channel__id = 941355481589485630
 
-bot = commands.Bot(command_prefix="s!")
+bot = commands.Bot(command_prefix=["Plz ",'plz '])
 
-# hello guys, I want to fetch a message using a given message_id under on_message. How can I do this
-
+message_deleted = []
 
 @bot.event
 async def on_ready():
@@ -102,5 +101,44 @@ async def on_message(message):
 
             await reporting.send(embed=embed)
 
+@bot.event
+async def on_message_delete(message):
+    global message_deleted
+    message_deleted = [(message, datetime.utcnow())] + message_deleted
+    message_deleted.pop() if len(message_deleted) >= 6 else message_deleted
+
+
+@bot.command(name='snipe')
+async def snipe(ctx, number: int = 1):
+    if not 0 <= number < 6:
+        await ctx.reply("Messages can be snipped in range 1, 6")
+    else:
+
+        # To get global list
+        global message_deleted
+        if len(message_deleted) >= number:
+            # slicing to get the indexed message
+            message, timestp = message_deleted[number-1]
+
+            # Embeds  title
+            embed = discord.Embed(
+                color=16718362)
+            messageCont = re.sub("\`", "", message.content)
+            # Embed Message
+            embed.add_field(name='Snipe Message: ',
+                            value=f'```\n { messageCont}\n```',
+                            inline=False)
+
+            # Embed footer to display about author
+            embed.set_footer(
+                text=f"Message sent by {message.author} ({message.author.name})",
+                icon_url=str(message.guild.icon_url))
+
+            # Embed timestamp to get the time stamp of the deleted message
+            embed.timestamp = timestp
+            await ctx.send(embed=embed)
+
+        else:
+            await ctx.reply("Message haven't been logged")
 
 bot.run(token)
