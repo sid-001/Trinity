@@ -100,6 +100,7 @@ async def on_message(message):
                              icon_url="https://cdn.discordapp.com/attachments/941355481589485630/949221082076938310/pinpng.com-timer-png-723861.png")
 
             await reporting.send(embed=embed)
+    await bot.process_commands(message)
 
 @bot.event
 async def on_message_delete(message):
