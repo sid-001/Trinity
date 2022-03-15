@@ -113,13 +113,14 @@ async def on_message(message):
 
 @bot.event
 async def on_message_delete(message):
-    if message.guild.id not in message_deleted:
-        message_deleted[message.guild.id] = []
-    message_deleted_list = message_deleted[message.guild.id]
-    message_deleted_list = [(message, datetime.utcnow(),  message.attachments[0].url if message.attachments != [] else None)
-                            ] + message_deleted_list
-    message_deleted_list.pop() if len(message_deleted) >= 6 else message_deleted_list
-    message_deleted[message.guild.id] = message_deleted_list
+    if not message.author.bot:
+        if message.guild.id not in message_deleted:
+            message_deleted[message.guild.id] = []
+        message_deleted_list = message_deleted[message.guild.id]
+        message_deleted_list = [(message, datetime.utcnow(),  message.attachments[0].url if message.attachments != [] else None)
+                                ] + message_deleted_list
+        message_deleted_list.pop() if len(message_deleted) >= 6 else message_deleted_list
+        message_deleted[message.guild.id] = message_deleted_list
 
 
 @bot.command(name='snipe')
@@ -212,13 +213,15 @@ message_edited = {}
 
 @bot.event
 async def on_message_edit(message_before, message_after):
-    if message_before.guild.id not in message_edited:
-        message_edited[message_before.guild.id] = []
-    message_edited_list = message_edited[message_before.guild.id]
-    message_edited_list = [
-        (message_before, message_after, datetime.utcnow())] + message_edited_list
-    message_edited_list.pop() if len(message_edited_list) >= 6 else message_edited_list
-    message_edited[message_before.guild.id] = message_edited_list
+    if not message_before.author.bot:
+        if message_before.content != message_after.content:
+            if message_before.guild.id not in message_edited:
+                message_edited[message_before.guild.id] = []
+            message_edited_list = message_edited[message_before.guild.id]
+            message_edited_list = [
+                (message_before, message_after, datetime.utcnow())] + message_edited_list
+            message_edited_list.pop() if len(message_edited_list) >= 6 else message_edited_list
+            message_edited[message_before.guild.id] = message_edited_list
 
 
 @bot.command(name='esnipe')
