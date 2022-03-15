@@ -5,11 +5,11 @@ from datetime import datetime
 import re
 
 
-# token = "OTMyMTc0MTg0OTQyMDI2ODAy.YePI3A.IvrKKDaFRvsalSoBhOFmG5ImIkA"
-# channel__id = 941355481589485630
-#coders bot
-token = "OTQ5NTg4NTcxMDE3MzE0Mzg0.YiMjRQ.hFdqxdTFu19Jkx24Ueux0joUIQ"
+token = "OTMyMTc0MTg0OTQyMDI2ODAy.YePI3A.cjMk6e8L51knMnOWCLPN2ytelEQ"
 channel__id = 941355481589485630
+#coders bot
+# token = "OTQ5NTg4NTcxMDE3MzE0Mzg0.YiMjRQ.hFdqxdTFu19Jkx24Ueux0joUIQ"
+# channel__id = 941355481589485630
 
 
 bot = commands.Bot(command_prefix=["Plz ", 'plz '])
