@@ -5,7 +5,10 @@ from datetime import datetime
 import re
 
 
-token = "OTMyMTc0MTg0OTQyMDI2ODAy.YePI3A.IvrKKDaFRvsalSoBhOFmG5ImIkA"
+# token = "OTMyMTc0MTg0OTQyMDI2ODAy.YePI3A.IvrKKDaFRvsalSoBhOFmG5ImIkA"
+# channel__id = 941355481589485630
+#coders bot
+token = "OTQ5NTg4NTcxMDE3MzE0Mzg0.YiMjRQ.hFdqxdTFu19Jkx24Ueux0joUIQ"
 channel__id = 941355481589485630
 
 
@@ -157,7 +160,7 @@ async def snipe(ctx, number: int = 1):
 
 @bot.command(name='help')
 async def help(ctx, input=None):
-
+    valid_input = False
     if input is None:
         embed = discord.Embed(title=f'Commands',
                               color=16718362)
@@ -170,6 +173,7 @@ async def help(ctx, input=None):
                         inline=False)
         embed.set_footer(text=f'Type plz help (command) for more info on a command.',
                         icon_url="https://cdn.discordapp.com/attachments/941355481589485630/949221082076938310/pinpng.com-timer-png-723861.png")
+        valid_input = True
     elif input.strip().lower() in ['snipe', 'Snipe']:
 
         embed = discord.Embed(title=f'Snipe Command',
@@ -179,6 +183,7 @@ async def help(ctx, input=None):
                         icon_url="https://cdn.discordapp.com/attachments/941355481589485630/949221082076938310/pinpng.com-timer-png-723861.png")
         embed.add_field(name="Usage:",
                         value="```\nPlz snipe [index]\nplz snipe\n```\nExample:\n```\nPlz snipe 2\nplz snipe\n```")
+        valid_input = True
     elif input.strip().lower() in ['esnipe', 'esnipe']:
 
         embed = discord.Embed(title=f'Edit Snipe Command',
@@ -188,15 +193,19 @@ async def help(ctx, input=None):
                         icon_url="https://cdn.discordapp.com/attachments/941355481589485630/949221082076938310/pinpng.com-timer-png-723861.png")
         embed.add_field(name="Usage:",
                         value="```\nPlz esnipe [index]\nplz esnipe\n```\nExample:\n```\nPlz esnipe 2\nplz esnipe\n```")
+
+        valid_input = True
     
+    else:
+        await ctx.reply("Pass a valid command")
+    if valid_input:
+        embed.set_author(name=f"Solicitor Help Panel",
+                        icon_url="https://cdn.discordapp.com/avatars/932174184942026802/5b33de427fa67237c3dc0dd58c4dcd3d.png?size=4096")
 
-    embed.set_author(name=f"Solicitor Help Panel",
-                     icon_url="https://cdn.discordapp.com/avatars/932174184942026802/5b33de427fa67237c3dc0dd58c4dcd3d.png?size=4096")
-
-    embed.timestamp = datetime.utcnow()
-    embed.set_thumbnail(
-        url=str(ctx.guild.icon_url))
-    await ctx.reply(embed=embed)
+        embed.timestamp = datetime.utcnow()
+        embed.set_thumbnail(
+            url=str(ctx.guild.icon_url))
+        await ctx.reply(embed=embed)
 
 message_edited = {}
 
