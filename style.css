@@ -1,15 +1,29 @@
+
 body {
     padding: 0;
     width: auto;
+    background-color: black;
+    margin-top: 0px;
+    margin-right: 0px;
+    margin-bottom: 0px;
+    margin-left: 0px;
+
 }
 
 div{
     box-sizing: border-box;
     width: auto;
-    padding: 20px;
+    padding: 0%;
+    display: flex;
 }
 html{
     height: 100%;
+    
+}
+
+
+.setter-divs {
+    padding: 0% 0% 0% 0%;
 }
 
 section.new-section {
@@ -23,7 +37,6 @@ section.new-section {
 h1.h1tags{
     text-align: center;
     color: rgb(255, 118, 108);
-    border-radius: 10px;
     height: 100%;
     width: 100%;
 }
@@ -31,15 +44,9 @@ div.topbar{
     background-color: #651fff;
 }
 .topbar {
-    background-color:#651fff;
-    overflow: auto;
-   
-    color: white;
     align-items: center;
-    text-align: center;
     font-family: 'Trebuchet MS';
-    border-radius: 10px;
-   
+    padding-top: 20px;
   }
 
 .bio{
@@ -47,7 +54,6 @@ div.topbar{
     font-size: large;
     color: white;
     background-color: #651fff;
-    border-radius: 10px;
     overflow: hidden;
     font-weight: bold;
     font-family: 'Trebuchet MS';
@@ -62,7 +68,6 @@ div.topbar{
     font-size: large;
     color: white;
     background-color: #651fff;
-    border-radius: 10px;
     overflow: hidden;
     font-weight: bold;
     font-family: 'Trebuchet MS';
@@ -76,6 +81,11 @@ div.topbar{
 
 .framebody{
     background-color: antiquewhite;
-    padding: 20px 30px;
+   
     overflow: hidden;
+}
+
+.main-body{
+    padding: 0%;
+    background-color: black;
 }
