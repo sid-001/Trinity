@@ -7,8 +7,9 @@ import re
 
 token = "OTMyMTc0MTg0OTQyMDI2ODAy.YePI3A.cjMk6e8L51knMnOWCLPN2ytelEQ"
 channel__id = 941355481589485630
-#coders bot
-# token = "OTQ5NTg4NTcxMDE3MzE0Mzg0.YiMjRQ.hFdqxdTFu19Jkx24Ueux0joUIQ"
+# coders bot
+
+# token = "OTQ5NTg4NTcxMDE3MzE0Mzg0.YiMjRQ.98nIT42oTh-m5_fFUbACag9eo6I"
 # channel__id = 941355481589485630
 
 
@@ -140,10 +141,10 @@ async def snipe(ctx, number: int = 1):
             messageCont = re.sub("\`", "", message.content)
             # Embed Message
             embed.add_field(name='Snipe Message: ',
-                            value= f'```\n { messageCont if len(messageCont) != 0 else "Invalid format"}\n```' if attachment is None else f'{messageCont}\u200b',
+                            value=f'```\n { messageCont[0:1000] if len(messageCont) != 0 else "Invalid format"}\n```' if attachment is None else f'{messageCont}\u200b',
                             inline=False)
             embed.set_author(
-                name=f"{message.author} ({message.author.display_name})", icon_url=message.author.avatar_url)
+                name=f"{message.author.display_name} ({message.author})", icon_url=message.author.avatar_url)
             # Embed footer to display about author
             embed.set_footer(
                 text=f"Deleted in #{message.channel.name}",
@@ -156,7 +157,6 @@ async def snipe(ctx, number: int = 1):
 
         else:
             await ctx.reply("Messages haven't been logged till there")
-
 
 
 @bot.command(name='help')
@@ -173,7 +173,7 @@ async def help(ctx, input=None):
                         value="```\nesnipe command help user to Edit snipe the Edited message within the range of 1, 6\n```",
                         inline=False)
         embed.set_footer(text=f'Type plz help (command) for more info on a command.',
-                        icon_url="https://cdn.discordapp.com/attachments/941355481589485630/949221082076938310/pinpng.com-timer-png-723861.png")
+                         icon_url="https://cdn.discordapp.com/attachments/941355481589485630/949221082076938310/pinpng.com-timer-png-723861.png")
         valid_input = True
     elif input.strip().lower() in ['snipe', 'Snipe']:
 
@@ -181,7 +181,7 @@ async def help(ctx, input=None):
                               color=16718362)
 
         embed.set_footer(text=f'Type plz help to view all commands.',
-                        icon_url="https://cdn.discordapp.com/attachments/941355481589485630/949221082076938310/pinpng.com-timer-png-723861.png")
+                         icon_url="https://cdn.discordapp.com/attachments/941355481589485630/949221082076938310/pinpng.com-timer-png-723861.png")
         embed.add_field(name="Usage:",
                         value="```\nPlz snipe [index]\nplz snipe\n```\nExample:\n```\nPlz snipe 2\nplz snipe\n```")
         valid_input = True
@@ -191,17 +191,17 @@ async def help(ctx, input=None):
                               color=16718362)
 
         embed.set_footer(text=f'Type plz help to view all commands.',
-                        icon_url="https://cdn.discordapp.com/attachments/941355481589485630/949221082076938310/pinpng.com-timer-png-723861.png")
+                         icon_url="https://cdn.discordapp.com/attachments/941355481589485630/949221082076938310/pinpng.com-timer-png-723861.png")
         embed.add_field(name="Usage:",
                         value="```\nPlz esnipe [index]\nplz esnipe\n```\nExample:\n```\nPlz esnipe 2\nplz esnipe\n```")
 
         valid_input = True
-    
+
     else:
         await ctx.reply("Pass a valid command")
     if valid_input:
         embed.set_author(name=f"Solicitor Help Panel",
-                        icon_url="https://cdn.discordapp.com/avatars/932174184942026802/5b33de427fa67237c3dc0dd58c4dcd3d.png?size=4096")
+                         icon_url="https://cdn.discordapp.com/avatars/932174184942026802/5b33de427fa67237c3dc0dd58c4dcd3d.png?size=4096")
 
         embed.timestamp = datetime.utcnow()
         embed.set_thumbnail(
@@ -237,20 +237,21 @@ async def esnipe(ctx, index: int = 1, *_):
             embed = discord.Embed(color=16718362)
 
             embed.add_field(name="Original Message:",
-                            value=f'```\n{message_before.content}\n```',
+                            value=f'```\n{message_before.content[0:1000]}\n```',
                             inline=False)
 
             embed.add_field(name="Edited Message:",
-                            value=f'```\n{message_after.content}\n```',
+                            value=f'```\n{message_after.content[0:1000]}\n```',
                             inline=False)
-
+            embed.add_field(name='Message url:',
+                            value=f'[Jump to message]({message_after.jump_url})')
             embed.timestamp = timestp
 
             embed.set_footer(
                 text=f"Edited in #{message_before.channel.name}",
                 icon_url=str(ctx.guild.icon_url))
             embed.set_author(
-                name=f"{message_before.author} ({message_before.author.display_name})", icon_url=message_before.author.avatar_url)
+                name=f"{message_before.author.display_name} ({message_before.author})", icon_url=message_before.author.avatar_url)
             await ctx.reply(embed=embed)
         else:
             await ctx.reply("Messages haven't been logged till there")
