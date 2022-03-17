@@ -143,7 +143,7 @@ async def snipe(ctx, number: int = 1):
                             value= f'```\n { messageCont if len(messageCont) != 0 else "Invalid format"}\n```' if attachment is None else f'{messageCont}\u200b',
                             inline=False)
             embed.set_author(
-                name=f"{message.author} ({message.author.name})", icon_url=message.author.avatar_url)
+                name=f"{message.author} ({message.author.display_name})", icon_url=message.author.avatar_url)
             # Embed footer to display about author
             embed.set_footer(
                 text=f"Deleted in #{message.channel.name}",
@@ -250,7 +250,7 @@ async def esnipe(ctx, index: int = 1, *_):
                 text=f"Edited in #{message_before.channel.name}",
                 icon_url=str(ctx.guild.icon_url))
             embed.set_author(
-                name=f"{message_before.author} ({message_before.author.name})", icon_url=message_before.author.avatar_url)
+                name=f"{message_before.author} ({message_before.author.display_name})", icon_url=message_before.author.avatar_url)
             await ctx.reply(embed=embed)
         else:
             await ctx.reply("Messages haven't been logged till there")
