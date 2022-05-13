@@ -915,7 +915,7 @@ async def snipe(ctx, number: int = 1):
             messageCont = re.sub("\`", "", message.content)
             # Embed Message
             embed.add_field(name='Snipe Message: ',
-                            value=f'```\n { messageCont[0:1000] if len(messageCont) != 0 else "Invalid format"}\n```' if attachment is None else f'{messageCont}\u200b',
+                            value=f'{ messageCont[0:1000] if len(messageCont) != 0 else "Invalid format"}' if attachment is None else f'{messageCont}\u200b',
                             inline=False)
             embed.set_author(
                 name=f"{message.author.display_name} ({message.author})", icon_url=message.author.avatar_url)
@@ -959,11 +959,11 @@ async def esnipe(ctx, index: int = 1, *_):
             embed = discord.Embed(color=16718362)
 
             embed.add_field(name="Original Message:",
-                            value=f'```\n{message_before.content[0:1000]}\n```',
+                            value=message_before.content[0:1000],
                             inline=False)
 
             embed.add_field(name="Edited Message:",
-                            value=f'```\n{message_after.content[0:1000]}\n```',
+                            value=message_after.content[0:1000],
                             inline=False)
             embed.add_field(name='Message url:',
                             value=f'[Jump to message]({message_after.jump_url})')
