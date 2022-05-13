@@ -8,7 +8,7 @@ import random
 import discord.utils 
 import re
 
-
+#what
 s_admin = 858195823296905256
 myclient = pymongo.MongoClient("mongodb+srv://SidDB:iqYEMReHesQ0pNAJ@sidbot.81mkh.mongodb.net/retryWrites=true&w=majority")
 mydb = myclient["Trinity"]
