@@ -7,8 +7,8 @@ import pymongo
 import random
 import discord.utils 
 import re
+from typing import Dict
 
-#what
 s_admin = 858195823296905256
 myclient = pymongo.MongoClient("mongodb+srv://SidDB:iqYEMReHesQ0pNAJ@sidbot.81mkh.mongodb.net/retryWrites=true&w=majority")
 mydb = myclient["Trinity"]
@@ -992,9 +992,79 @@ async def cleanup():
         delete_list.pop() if len(delete_list) > 1 else delete_list
         message_edited[i] = delete_list
 
-#----------------------------------------------------------------end of snipe and esnipe commands------------------------------------------
 
 
+#---------------------------------------------start of help command-------------------------------------------------
 
+help_commands: Dict = {
+    'add': 'Add two numbers',
+    'admin': 'Make anyone a Superuser',
+    'autoreply': 'Initiate auto reply to messages',
+    'bal': 'Shows you current balance',
+    'clear': 'Clear messages',
+    'copy': "Copy message",
+    'cr': 'sets custom reply',
+    'divide': 'Divide two numbers',
+    'dm': 'DM your message to the mentioned user',
+    'dnd': 'changes bot status to dnd',
+    'esnipe': 'Edit snipe the message',
+    'getinv': 'creates invite',
+    'id': 'show id of mentioned user',
+    'idle': 'changes bot status to idle',
+    'ignore': 'ignore users from auto replies',
+    'info': 'Givies information about query',
+    'listening': 'Listen to the text',
+    'logs': 'Changes the Guild id',
+    'multiply': 'Multiply two numbers',
+    'online': 'Changes bot status to online',
+    'override': 'Gives you full access to the system',
+    'paste': 'paste the copies message',
+    'ping': 'Show bot response time',
+    'playing': 'Undefined',
+    "prefix": 'for changing the prefix',
+    'register': 'Register yourself to Trinity Economy commands',
+    'remove': 'removes user form target mode',
+    'replysetup': 'initiate reply',
+    'resend': 'resends the message you replied for',
+    'role': 'Initiate role to a user',
+    'say': 'will say your message',
+    'snipe': 'Snipe deleted message',
+    'stream': 'stream anything',
+    'sub': 'subtract two numbers',
+    'superchannel': 'for creating millions of channels',
+    'targetmode': 'toggles targetmode',
+    'targetusr': "targets the user",
+    'te': 'Changes target emoji',
+    'toggle': 'Enable/Disable commands',
+    'updatebal': 'update your balance to as much you want',
+    'watching': 'watch anything'
+}
+client.remove_command('help')
+
+@client.command(name='help')
+async def help(ctx, *args):
+
+    embed = discord.Embed(title=f'Commands',
+                          color=16718362)
+    a = 1
+    for command_name, command_info in help_commands.items():
+        embed.add_field(name=f"{a}. {command_name}",
+                        value=f"```\n{command_info}\n```",
+                        inline=True)
+        a += 1
+    embed.set_thumbnail(url=str(ctx.guild.icon_url))
+
+    embed.timestamp = datetime.datetime.utcnow()
+
+    embed.set_author(name=f"Trinity Help Panel",
+                     icon_url="https://images-ext-2.discordapp.net/external/DCkc86FAVzM94joKgmW2XS6PYwItlzVi9XlPu7H9Gzg/%3Fsize%3D4096/https/cdn.discordapp.com/avatars/889368446192734209/b70c6ea0db6f22d5d78b77635d02d19f.png")
+
+    embed.set_footer(text=f"Hello, {ctx.author.name}",
+                     icon_url="https://cdn.discordapp.com/attachments/941355481589485630/949221082076938310/pinpng.com-timer-png-723861.png")
+
+    msg = await ctx.reply(embed=embed)
+    await asyncio.sleep(60)
+    await msg.delete()
+#----------------------------------------------------------------end of help command----------------------------------------------------------------------------
 
 client.run('ODg5MzY4NDQ2MTkyNzM0MjA5.YUgO6Q.W5k6VIXDZWZICIL9S9G3ba2Og_8')
