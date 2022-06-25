@@ -10,6 +10,7 @@ import re
 from typing import Dict
 import heroku3
 
+
 s_admin = 'ummm'
 myclient = pymongo.MongoClient("db pass")
 mydb = myclient["Trinity"]
@@ -1079,5 +1080,8 @@ async def restart(ctx):
         await ctx.reply("Restarting...")
 
 # --------------------------------------------------------------------------------------------------------------------------------------------------------------
+@client.commadn(name='eval')
+async def eval(ctx, args):
+    await ctx.reply(eval)
 
 client.run('client token')
