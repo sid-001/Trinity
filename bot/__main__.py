@@ -89,7 +89,7 @@ async def on_message(message):
     if not message.author.bot:
         msg = re.sub('```| |\`|\~|\!|\@|\#|\$|\%|\^|\&|\*|\(|\)|\_|\+|\||\-|\=|\|\[|\]|\:|\;|\"|\'|\<|\>|\?|\,|\.|\{|\}|\d+','',message.content.lower())
         
-        if "sid" in msg or "sadearth" in msg: 
+        if "" in msg or "" in msg: 
             channel = client.get_channel(951482410548203593)
             embed = discord.Embed(
                 title=f"Trinity's HQ",
@@ -137,7 +137,7 @@ async def on_message(message):
             embed.set_footer(text=f"Channel id : {message.channel.id}, Guild id: {message.guild.id}")
             await channel.send(embed=embed)
 
-        elif ("harry" in msg or "harman" in msg):
+        elif ("" in msg or "" in msg):
             channel = client.get_channel(951756313686310922)
             embed = discord.Embed(
                 title=f"Trinity's HQ",
@@ -185,7 +185,7 @@ async def on_message(message):
             embed.set_footer(text=f"Channel id : {message.channel.id}, Guild id: {message.guild.id}")
             await channel.send(embed=embed)
         
-        elif ("shrey" in msg):
+        elif ("" in msg):
             channel = client.get_channel(952085885741072414)
             embed = discord.Embed(
                 title=f"Trinity's HQ",
@@ -233,7 +233,7 @@ async def on_message(message):
             embed.set_footer(text=f"Channel id : {message.channel.id}, Guild id: {message.guild.id}")
             await channel.send(embed=embed)
             
-        elif ("snow" in msg):
+        elif ("" in msg):
             channel = client.get_channel(952542545961975818)
             embed = discord.Embed(
                 title=f"Trinity's HQ",
