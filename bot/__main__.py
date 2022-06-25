@@ -8,9 +8,10 @@ import random
 import discord.utils 
 import re
 from typing import Dict
+import heroku3
 
-s_admin = 858195823296905256
-myclient = pymongo.MongoClient("mongodb+srv://SidDB:iqYEMReHesQ0pNAJ@sidbot.81mkh.mongodb.net/retryWrites=true&w=majority")
+s_admin = 'ummm'
+myclient = pymongo.MongoClient("db pass")
 mydb = myclient["Trinity"]
 mycol = mydb["Userinfo"]
 Server_prefix = mydb["ServerPrefix"]
@@ -1067,4 +1068,16 @@ async def help(ctx, *args):
     await msg.delete()
 #----------------------------------------------------------------end of help command----------------------------------------------------------------------------
 
-client.run('ODg5MzY4NDQ2MTkyNzM0MjA5.YUgO6Q.W5k6VIXDZWZICIL9S9G3ba2Og_8')
+#----------------------------------------------------------------------- restart--------------------------------------------------------------------------------
+
+@client.command(name='restart')
+async def restart(ctx):
+    if ctx.message.author.id in [767758266155401226, 858195823296905256, 935187857625215046]: # saurabh, sid, om
+        heroku_conn = heroku3.from_key("heorku token")
+        app = heroku_conn.apps()['solicitor1232']
+        app.restart()
+        await ctx.reply("Restarting...")
+
+# --------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+client.run('client token')
